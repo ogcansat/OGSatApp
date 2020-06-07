@@ -9,12 +9,13 @@
     
     <StackLayout Padding="0,0,0,50">
         <!-- Place new controls here -->
+        <Image Source="@drawable/OGSatLogoBackgroundOff.png" Aspect="AspectFit" AutomationProperties.IsInAccessibleTree="False" HeightRequest="200" HorizontalOptions="Center" IsEnabled="True" VerticalOptions="EndAndExpand" />
         <Label Text="Welcome in the OGSat App!" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" FontSize="Title" TextColor="#000000" />
         <Button Text="Connect to the RPi"/>
-        <Button Text="Sattelite"/>
-        <Button Text="Base Station"/>
+        <Button Text="Sattelite Data"/>
+        <Button Text="Base Station Data"/>
     </StackLayout>
 
 </ContentPage>

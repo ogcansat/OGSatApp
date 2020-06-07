@@ -90,7 +90,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\OGSatLogo.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OGSatApp\OGSatApp.csproj">
       <Project>{698392BF-1272-4A7D-BF4D-A5BD5F3E122C}</Project>
@@ -98,7 +100,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\OGSatLogo.jpg" />
+    <AndroidResource Include="Resources\drawable\OGSatLogoBackgroundOff.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
