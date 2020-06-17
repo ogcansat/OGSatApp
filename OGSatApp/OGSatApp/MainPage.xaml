@@ -13,9 +13,11 @@
         <Label Text="Welcome in the OGSat App!" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" FontSize="Title" TextColor="#000000" />
-        <Button Text="Connect to the RPi"/>
-        <Button Text="Sattelite Data"/>
-        <Button Text="Base Station Data"/>
+        <Label x:Name="LblConnectionStatus" Text="Not connected." HorizontalOptions="Center"/>
+        <Button x:Name="BttnConnect" Text="Connect to the RPi" Clicked="BttnConnect_Clicked" />
+        <Button x:Name="BttnSatData" Text="Sattelite Data" Clicked="BttnSatData_Clicked"/>
+        <Button x:Name="BttnBaseData" Text="Base Station Data" Clicked="BttnBaseData_Clicked"/>
+
     </StackLayout>
 
 </ContentPage>
