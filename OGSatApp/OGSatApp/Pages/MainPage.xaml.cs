@@ -15,7 +15,7 @@ using Plugin.BLE.Abstractions.Contracts;
 using System.Data;
 using System.Threading;
 
-namespace OGSatApp
+namespace OGSatApp.Pages
 {
     // Learn more about making custom code visible in the Xamarin.Forms previewer
     // by visiting https://aka.ms/xamarinforms-previewer

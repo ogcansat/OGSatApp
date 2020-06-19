@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 using Xamarin.Forms.Xaml;
 
-namespace OGSatApp
+
+namespace OGSatApp.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SatDataPage : ContentPage
+    public partial class BaseDataPage : ContentPage
     {
-
         private string _data;
 
-        public SatDataPage()
+        public BaseDataPage()
         {
             InitializeComponent();
             GetData();
@@ -50,9 +48,6 @@ namespace OGSatApp
                 string[] values = item.Split(' ');
                 switch (values[0])
                 {
-                    case "MessageID:":
-                        LblMessage.Text = values[1].ToString();
-                        break;
                     case "Temp:":
                         LblTemp.Text = values[1].ToString() + " °C";
                         break;
@@ -65,20 +60,17 @@ namespace OGSatApp
                     case "Alt:":
                         LblAlt.Text = values[1].ToString() + " m";
                         break;
-                    case "Longitude:":
-                        LblLong.Text = values[1].ToString();
+                    case "Light:":
+                        LblLight.Text = values[1].ToString() + " lux";
                         break;
-                    case "Latitude:":
-                        LblLat.Text = values[1].ToString();
+                    case "SoilHum:":
+                        LblSoil.Text = values[1].ToString();
                         break;
                 }
             }
 
             LblUpdateTime.Text = "Last updated: " + DateTime.Now.ToLongTimeString();
-          
+
         }
-
-
-
     }
 }

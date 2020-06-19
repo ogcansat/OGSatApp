@@ -4,11 +4,11 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="OGSatApp.SatDataPage" Padding="0">
+             x:Class="OGSatApp.Pages.BaseDataPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Satellite data" 
-           HorizontalOptions="Center" VerticalOptions="Start" FontSize="Title" TextColor="#000000" Margin="0,30,0,0" />
+            <Label Text="Base station data" 
+           HorizontalOptions="Center" VerticalOptions="Start" FontSize="Title" TextColor="#000000" Margin="0,50,0,0" />
             <Label x:Name="LblUpdateTime" Text="" Margin="10,0,0,0" />
             <Grid VerticalOptions="Start" HorizontalOptions="Start">
                 <Grid.ColumnDefinitions>
@@ -19,55 +19,42 @@
                 </Grid.RowDefinitions>
                 <Frame Grid.Column="1" Grid.Row="1">
                     <StackLayout>
-                        <Image Source="@drawable/Message.png" />
-                        <Label x:Name="LblMessage" Text="0" HorizontalOptions="Center"/>
-                    </StackLayout>
-                </Frame>
-                <Frame Grid.Column="2" Grid.Row="1">
-                    <StackLayout>
-                        <Image Source="@drawable/OGSatLogoBackgroundOff.png" HorizontalOptions="Fill" VerticalOptions="Fill" Aspect="AspectFit" HeightRequest="90" />
-                    </StackLayout>
-                </Frame>
-                <Frame Grid.Column="1" Grid.Row="2">
-                    <StackLayout>
                         <Image Source="@drawable/Temperature.png" />
                         <Label x:Name="LblTemp" Text="0 °C" HorizontalOptions="Center"/>
                     </StackLayout>
                 </Frame>
-                <Frame Grid.Column="2" Grid.Row="2">
+                <Frame Grid.Column="2" Grid.Row="1">
                     <StackLayout>
                         <Image Source="@drawable/Humidity.png" />
                         <Label x:Name="LblHum" Text="0 %" HorizontalOptions="Center"/>
                     </StackLayout>
                 </Frame>
-                <Frame Grid.Column="1" Grid.Row="3">
+                <Frame Grid.Column="1" Grid.Row="2">
                     <StackLayout>
                         <Image Source="@drawable/Pressure.png" />
                         <Label x:Name="LblPress" Text="0 hPa" HorizontalOptions="Center"/>
                     </StackLayout>
                 </Frame>
-                <Frame Grid.Column="2" Grid.Row="3">
+                <Frame Grid.Column="2" Grid.Row="2">
                     <StackLayout>
                         <Image Source="@drawable/Altitude.png" />
                         <Label x:Name="LblAlt" Text="0 m" HorizontalOptions="Center"/>
                     </StackLayout>
                 </Frame>
 
-                <Frame Grid.Column="1" Grid.Row="4">
+                <Frame Grid.Column="1" Grid.Row="3">
                     <StackLayout>
-                        <Image Source="@drawable/GPS.png" HeightRequest="40" />
-                        <Label Text="Longitude" HorizontalOptions="Center"/>
-                        <Label x:Name="LblLong" Text="0.000000" HorizontalOptions="Center"/>
+                        <Image Source="@drawable/Light.png"/>
+                        <Label x:Name="LblLight" Text="0 lux" HorizontalOptions="Center"/>
                     </StackLayout>
                 </Frame>
-                <Frame Grid.Column="2" Grid.Row="4">
+                <Frame Grid.Column="2" Grid.Row="3">
                     <StackLayout>
-                        <Image Source="@drawable/GPS.png" HeightRequest="40" />
-                        <Label Text="Latitude" HorizontalOptions="Center" Padding="0"/>
-                        <Label x:Name="LblLat" Text="0.000000" HorizontalOptions="Center"/>
+                        <Image Source="@drawable/Soil.png" />
+                        <Label x:Name="LblSoil" Text="0" HorizontalOptions="Center"/>
                     </StackLayout>
                 </Frame>
-                
+
 
             </Grid>
         </StackLayout>

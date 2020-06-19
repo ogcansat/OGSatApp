@@ -18,11 +18,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="BaseDataPage.xaml">
+    <EmbeddedResource Update="Pages\BaseDataPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="SatDataPage.xaml">
+    <EmbeddedResource Update="Pages\SatDataPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
 </Project>
