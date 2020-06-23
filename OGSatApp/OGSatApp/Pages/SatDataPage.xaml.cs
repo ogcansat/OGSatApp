@@ -19,11 +19,14 @@ namespace OGSatApp.Pages
         public SatDataPage()
         {
             InitializeComponent();
-            new Thread(() => {
+            new Thread(() =>
+            {
                 while (true)
                 {
+
                     string data = BluetoothController.ReadDataFromRPi();
                     Device.InvokeOnMainThreadAsync(() => UpdateData(data));
+
                 }
             }).Start();
 

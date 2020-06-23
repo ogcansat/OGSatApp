@@ -21,8 +21,11 @@ namespace OGSatApp.Pages
             InitializeComponent();
             new Thread(() =>
             {
-                string data = BluetoothController.ReadDataFromRPi();
-                Device.InvokeOnMainThreadAsync(() => UpdateData(data));
+                while (true)
+                {
+                    string data = BluetoothController.ReadDataFromRPi();
+                    Device.InvokeOnMainThreadAsync(() => UpdateData(data));
+                }
             }).Start();
         }
 
