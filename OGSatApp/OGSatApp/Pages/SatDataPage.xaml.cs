@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OGSatApp.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,15 +16,22 @@ namespace OGSatApp.Pages
     public partial class SatDataPage : ContentPage
     {
 
-        private string _data;
+        private string data;
 
         public SatDataPage()
         {
             InitializeComponent();
-            GetData();
+            new Thread(() => {
+                while (true)
+                {
+                    string data = BluetoothController.ReadDataFromRPi();
+                    Device.InvokeOnMainThreadAsync(() => UpdateData(data));
+                }
+            }).Start();
+
         }
 
-        public async Task GetData()
+        /*public async Task GetData()
         {
             while (true)
             {
@@ -40,11 +48,22 @@ namespace OGSatApp.Pages
                 //LblData.Text = _data;
                 UpdateData();
             }
-        }
+        }*/
 
-        public void UpdateData()
+        public void UpdateData(string data)
         {
-            string[] lines = _data.Split('\n');
+            //while (true)
+            //{
+
+            /*if (BluetoothController.ReceivedMessages.Count == 0)
+                return;
+
+            string data = BluetoothController.ReceivedMessages.Dequeue();*/
+
+            if (string.IsNullOrWhiteSpace(data))
+                return;
+
+            string[] lines = data.Split('\n');
             foreach (var item in lines)
             {
                 string[] values = item.Split(' ');
@@ -75,7 +94,8 @@ namespace OGSatApp.Pages
             }
 
             LblUpdateTime.Text = "Last updated: " + DateTime.Now.ToLongTimeString();
-          
+            //}
+
         }
 
 

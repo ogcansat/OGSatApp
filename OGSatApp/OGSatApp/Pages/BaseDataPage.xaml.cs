@@ -1,7 +1,9 @@
-﻿using System;
+﻿using OGSatApp.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -18,10 +20,11 @@ namespace OGSatApp.Pages
         public BaseDataPage()
         {
             InitializeComponent();
-            GetData();
+            new Thread(() => BluetoothController.ReadDataFromRPi()).Start();
+            new Thread(UpdateData).Start();
         }
 
-        public async Task GetData()
+        /*public async Task GetData()
         {
             while (true)
             {
@@ -38,7 +41,7 @@ namespace OGSatApp.Pages
                 //LblData.Text = _data;
                 UpdateData();
             }
-        }
+        }*/
 
         public void UpdateData()
         {

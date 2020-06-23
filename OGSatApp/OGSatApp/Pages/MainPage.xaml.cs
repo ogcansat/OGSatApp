@@ -12,8 +12,8 @@ using InTheHand.Net;
 using Xamarin.Forms.Internals;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
-using System.Data;
 using System.Threading;
+using OGSatApp.Controllers;
 
 namespace OGSatApp.Pages
 {
@@ -22,77 +22,50 @@ namespace OGSatApp.Pages
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
-        public static BluetoothClient Client;
 
         public MainPage()
         {
             InitializeComponent();
-            Client = new BluetoothClient();
-
         }
 
+        private void CheckConnection() => DisplayAlert("Connection demanded", "First connect to the RPi via Connect button.", "Ok");
+        private void BttnConnect_Clicked(object sender, EventArgs e) => RefreshConnectionStatus();
 
-        private void BttnConnect_Clicked(object sender, EventArgs e)
+        private void RefreshConnectionStatus()
         {
-            if (!Client.Connected)
+            switch (BluetoothController.ConnectToRPi())
             {
-                if (CrossBluetoothLE.Current.State == BluetoothState.On)
-                {
-                    Client.Connect(Client.PairedDevices.ToList().FirstOrDefault(x => x.DeviceName == "raspberrypi").DeviceAddress, BluetoothService.SerialPort);
-                    if (Client.Connected)
-                    {
-                        LblConnectionStatus.Text = "Connection established with RPi.";
-                        LblConnectionStatus.TextColor = Color.Green;
-                    }
-                    else
-                    {
-                        LblConnectionStatus.Text = "Connection failed with RPi.";
-                        LblConnectionStatus.TextColor = Color.Red;
-                    }
-                }
-                else
-                {
+                case ConnectionState.BluetoothOFF:
                     LblConnectionStatus.Text = "Bluetooth is off!";
                     LblConnectionStatus.TextColor = Color.Gray;
+                    break;
+                case ConnectionState.Failed:
+                    LblConnectionStatus.Text = "Connection failed with RPi.";
+                    LblConnectionStatus.TextColor = Color.Red;
+                    break;
+                case ConnectionState.Connected:
+                    LblConnectionStatus.Text = "Connection established with RPi.";
+                    LblConnectionStatus.TextColor = Color.Green;
+                    break;
 
-                }
             }
-            
         }
 
         private void BttnSatData_Clicked(object sender, EventArgs e)
         {
-            if (!Client.Connected)
-            {
-                DisplayAlert("Connection demanded", "First connect to the RPi via Connect button.", "Ok");
-                return;
-            }
 
-            byte[] bytesOFF = Encoding.ASCII.GetBytes("set_env terminal");
-            Client.GetStream().Write(bytesOFF, 0, bytesOFF.Length);
-
+            BluetoothController.SendDataToRPi("set_env terminal");
             Thread.Sleep(1000);
-
-            byte[] bytesSatON = Encoding.ASCII.GetBytes("dataON sat");
-            Client.GetStream().Write(bytesSatON, 0, bytesSatON.Length);
+            BluetoothController.SendDataToRPi("dataON sat");
             Navigation.PushModalAsync(new SatDataPage());
         }
 
         private void BttnBaseData_Clicked(object sender, EventArgs e)
         {
-            if (!Client.Connected)
-            {
-                DisplayAlert("Connection demanded", "First connect to the RPi via Connect button.", "Ok");
-                return;
-            }
 
-            byte[] bytesOFF = Encoding.ASCII.GetBytes("set_env terminal");
-            Client.GetStream().Write(bytesOFF, 0, bytesOFF.Length);
-
+            BluetoothController.SendDataToRPi("set_env terminal");
             Thread.Sleep(1000);
-
-            byte[] bytesBsON = Encoding.ASCII.GetBytes("dataON bs");
-            Client.GetStream().Write(bytesBsON, 0, bytesBsON.Length);
+            BluetoothController.SendDataToRPi("dataON bs");
             Navigation.PushModalAsync(new BaseDataPage());
         }
     }
