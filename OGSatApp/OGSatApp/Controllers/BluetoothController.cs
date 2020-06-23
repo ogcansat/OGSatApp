@@ -22,11 +22,8 @@ namespace OGSatApp.Controllers
     }
 
     public static class BluetoothController
-    {
-        
-
-        public static Queue<string> ReceivedMessages { get; private set; } = new Queue<string>();
-        public static BluetoothClient Client { get; private set; } = new BluetoothClient();
+    {    
+        public static BluetoothClient Client { get; } = new BluetoothClient();
 
         public static ConnectionState ConnectToRPi()
         {
@@ -45,7 +42,6 @@ namespace OGSatApp.Controllers
 
         public static string ReadDataFromRPi()
         {
-            //ReceivedMessages.Clear();
             while(Client.Connected)
             {
                 string data;
@@ -57,8 +53,7 @@ namespace OGSatApp.Controllers
                     return data;
                 }
             }
-
-            return "";
+            return string.Empty;
         }
 
         public static bool SendDataToRPi(string data)

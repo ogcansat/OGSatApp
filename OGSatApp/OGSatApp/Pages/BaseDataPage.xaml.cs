@@ -15,37 +15,23 @@ namespace OGSatApp.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BaseDataPage : ContentPage
     {
-        private string _data;
 
         public BaseDataPage()
         {
             InitializeComponent();
-            new Thread(() => BluetoothController.ReadDataFromRPi()).Start();
-            new Thread(UpdateData).Start();
+            new Thread(() =>
+            {
+                string data = BluetoothController.ReadDataFromRPi();
+                Device.InvokeOnMainThreadAsync(() => UpdateData(data));
+            }).Start();
         }
 
-        /*public async Task GetData()
+        public void UpdateData(string data)
         {
-            while (true)
-            {
-                string data;
-                do
-                {
-                    byte[] bytes = new byte[500];
+            if (string.IsNullOrWhiteSpace(data))
+                return;
 
-                    await MainPage.Client.GetStream().ReadAsync(bytes, 0, bytes.Length);
-                    data = Encoding.ASCII.GetString(bytes).Trim('\0');
-
-                } while (data.Length < 10);
-                _data = data;
-                //LblData.Text = _data;
-                UpdateData();
-            }
-        }*/
-
-        public void UpdateData()
-        {
-            string[] lines = _data.Split('\n');
+            string[] lines = data.Split('\n');
             foreach (var item in lines)
             {
                 string[] values = item.Split(' ');

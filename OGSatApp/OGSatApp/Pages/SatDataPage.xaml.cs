@@ -16,8 +16,6 @@ namespace OGSatApp.Pages
     public partial class SatDataPage : ContentPage
     {
 
-        private string data;
-
         public SatDataPage()
         {
             InitializeComponent();
@@ -31,34 +29,9 @@ namespace OGSatApp.Pages
 
         }
 
-        /*public async Task GetData()
-        {
-            while (true)
-            {
-                string data;
-                do
-                {
-                    byte[] bytes = new byte[500];
-
-                    await MainPage.Client.GetStream().ReadAsync(bytes, 0, bytes.Length);
-                    data = Encoding.ASCII.GetString(bytes).Trim('\0');
-
-                } while (data.Length < 10);
-                _data = data;
-                //LblData.Text = _data;
-                UpdateData();
-            }
-        }*/
 
         public void UpdateData(string data)
         {
-            //while (true)
-            //{
-
-            /*if (BluetoothController.ReceivedMessages.Count == 0)
-                return;
-
-            string data = BluetoothController.ReceivedMessages.Dequeue();*/
 
             if (string.IsNullOrWhiteSpace(data))
                 return;
@@ -94,10 +67,8 @@ namespace OGSatApp.Pages
             }
 
             LblUpdateTime.Text = "Last updated: " + DateTime.Now.ToLongTimeString();
-            //}
 
         }
-
 
 
     }
