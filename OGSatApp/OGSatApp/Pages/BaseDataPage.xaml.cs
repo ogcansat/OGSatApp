@@ -37,25 +37,25 @@ namespace OGSatApp.Pages
             string[] lines = data.Split('\n');
             foreach (var item in lines)
             {
-                string[] values = item.Split(' ');
+                string[] values = item.Split(':');
                 switch (values[0])
                 {
-                    case "Temp:":
+                    case "Temperature":
                         LblTemp.Text = values[1].ToString() + " °C";
                         break;
-                    case "Hum:":
+                    case "Humidity":
                         LblHum.Text = values[1].ToString() + " %";
                         break;
-                    case "Press:":
+                    case "Pressure":
                         LblPress.Text = values[1].ToString() + " hPa";
                         break;
-                    case "Alt:":
+                    case "Altitude":
                         LblAlt.Text = values[1].ToString() + " m";
                         break;
-                    case "Light:":
+                    case "Light":
                         LblLight.Text = values[1].ToString() + " lux";
                         break;
-                    case "SoilHum:":
+                    case "SoilHum":
                         LblSoil.Text = values[1].ToString();
                         break;
                 }
