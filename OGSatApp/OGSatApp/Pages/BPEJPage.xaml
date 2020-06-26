@@ -17,22 +17,47 @@
             <Entry Placeholder="Zadejte BPEJ kód (X.XX.XX)"
                    x:Name="EntrBPEJcode"
                    Completed="EntrBPEJcode_Completed"
-                   Keyboard="Numeric">
+                   Keyboard="Numeric" HorizontalTextAlignment="Center">
                 <Entry.Behaviors>
                     <behaviors:BPEJValidationBehavior Mask="X.XX.XX"/>
                 </Entry.Behaviors>
             </Entry>
-            <TableView>
+            <TableView Intent="Data" HasUnevenRows="True">
                 <TableRoot>
-                    <TableSection Title="Detaily kódu">
-                        <TextCell x:Name="TxtCllClimate" Text="Klimatický region" Detail="" />
-                        <TextCell x:Name="TxtCllSoilInclination" Text="Sklonitost a expozice" Detail="" />
-                        <TextCell x:Name="TxtCllSoilDepth" Text="Hloubka půdy a skeletovitost" Detail="" />
-                        <TextCell x:Name="TxtCllSoilUnit" Text="Hlavní půdní jednotka" Detail="" />
+                    <TableSection x:Name="TblSctnClimate"
+                                  Title="Klimatický region">
+                        <!--<ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="Test" TextColor="Black"/>
+                                <Label Text="Description" />
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="Test" TextColor="Black"/>
+                                <Label Text="Description" />
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="Test" TextColor="Black"/>
+                                <Label Text="Description &#10;Test &#10;zes" />
+                            </StackLayout>
+                        </ViewCell>-->
+                    </TableSection>
+                    <TableSection x:Name="TblSctnInclination"
+                        Title="Sklonitost a expozice">
+                    </TableSection>
+                    <TableSection x:Name="TblSctnSoilDepth"
+                        Title="Hloubka půdy a skeletovitost">
+                    </TableSection>
+                    <TableSection x:Name="TblSctnSoilUnit"
+                        Title="Hlavní půdní jednotka">
                     </TableSection>
                 </TableRoot>
             </TableView>
-            
+
+
             <Button x:Name="BttnGetBPEJ"
                     Text="Zjisti BPEJ kód"
                     VerticalOptions="EndAndExpand"
