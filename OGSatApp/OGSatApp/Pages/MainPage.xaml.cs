@@ -31,42 +31,44 @@ namespace OGSatApp.Pages
         private void CheckConnection() => DisplayAlert("Connection demanded", "First connect to the RPi via Connect button.", "Ok");
         private void BttnConnect_Clicked(object sender, EventArgs e) => RefreshConnectionStatus();
 
-        private void RefreshConnectionStatus()
+        private async void RefreshConnectionStatus()
         {
-            switch (BluetoothController.ConnectToRPi())
-            {
-                case ConnectionState.BluetoothOFF:
-                    LblConnectionStatus.Text = "Bluetooth is off!";
-                    LblConnectionStatus.TextColor = Color.Gray;
-                    break;
-                case ConnectionState.Failed:
-                    LblConnectionStatus.Text = "Connection failed with RPi.";
-                    LblConnectionStatus.TextColor = Color.Red;
-                    break;
-                case ConnectionState.Connected:
-                    LblConnectionStatus.Text = "Connection established with RPi.";
-                    LblConnectionStatus.TextColor = Color.Green;
-                    break;
+            UpdateConnectionString("Connecting...", Color.Gray);
 
-            }
+            await Task.Run(() =>
+            {
+                switch (BluetoothController.ConnectToRPi())
+                {
+                    case ConnectionState.BluetoothOFF:
+                        UpdateConnectionString("Bluetooth is off!", Color.Gray);
+                        break;
+                    case ConnectionState.Failed:
+                        UpdateConnectionString("Connection failed with RPi.",Color.Red);
+                        break;
+                    case ConnectionState.Connected:
+                        UpdateConnectionString("Connection established with RPi.", Color.Green);         
+                        break;
+                }
+            });
+
+            void UpdateConnectionString(string text, Color color) => Dispatcher.BeginInvokeOnMainThread(() => { LblConnectionStatus.Text = text; LblConnectionStatus.TextColor = color; });
         }
 
         private void BttnSatData_Clicked(object sender, EventArgs e)
         {
-
-            BluetoothController.SendDataToRPi("set_env terminal");
-            Thread.Sleep(1000);
             BluetoothController.SendDataToRPi("dataON sat");
             Navigation.PushModalAsync(new SatDataPage());
         }
 
         private void BttnBaseData_Clicked(object sender, EventArgs e)
         {
-
-            BluetoothController.SendDataToRPi("set_env terminal");
-            Thread.Sleep(1000);
             BluetoothController.SendDataToRPi("dataON bs");
             Navigation.PushModalAsync(new BaseDataPage());
+        }
+
+        private void BttnBPEJ_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -17,7 +17,7 @@
         <Button x:Name="BttnConnect" Text="Connect to the RPi" Clicked="BttnConnect_Clicked" />
         <Button x:Name="BttnSatData" Text="Sattelite Data" Clicked="BttnSatData_Clicked"/>
         <Button x:Name="BttnBaseData" Text="Base Station Data" Clicked="BttnBaseData_Clicked"/>
-
+        <Button x:Name="BttnBPEJ" Text="BPEJ" Clicked="BttnBPEJ_Clicked"/>
     </StackLayout>
 
 </ContentPage>

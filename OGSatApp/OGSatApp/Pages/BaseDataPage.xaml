@@ -10,7 +10,7 @@
             <Label Text="Base station data" 
            HorizontalOptions="Center" VerticalOptions="Start" FontSize="Title" TextColor="#000000" Margin="0,50,0,0" />
             <Label x:Name="LblUpdateTime" Text="" Margin="10,0,0,0" />
-            <Grid VerticalOptions="Start" HorizontalOptions="Start">
+            <Grid VerticalOptions="Start" HorizontalOptions="Start" Padding="0,0,7,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1" />
                 </Grid.ColumnDefinitions>
