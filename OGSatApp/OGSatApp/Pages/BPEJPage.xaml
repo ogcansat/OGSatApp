@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:OGSatApp.Pages"
+             xmlns:behaviors="clr-namespace:OGSatApp.Pages.Behaviors"
+             mc:Ignorable="d"
+             x:Class="OGSatApp.Pages.BPEJPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="BPEJ Kód"
+                   HorizontalOptions="CenterAndExpand"
+                   TextColor="#000000"
+                   FontSize="Title" 
+                   Padding="0,20,0,0"/>
+            <Entry Placeholder="Zadejte BPEJ kód (X.XX.XX)"
+                   x:Name="EntrBPEJcode"
+                   Completed="EntrBPEJcode_Completed"
+                   Keyboard="Numeric">
+                <Entry.Behaviors>
+                    <behaviors:BPEJValidationBehavior Mask="X.XX.XX"/>
+                </Entry.Behaviors>
+            </Entry>
+            <TableView>
+                <TableRoot>
+                    <TableSection Title="Detaily kódu">
+                        <TextCell x:Name="TxtCllClimate" Text="Klimatický region" Detail="" />
+                        <TextCell x:Name="TxtCllSoilInclination" Text="Sklonitost a expozice" Detail="" />
+                        <TextCell x:Name="TxtCllSoilDepth" Text="Hloubka půdy a skeletovitost" Detail="" />
+                        <TextCell x:Name="TxtCllSoilUnit" Text="Hlavní půdní jednotka" Detail="" />
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+            
+            <Button x:Name="BttnGetBPEJ"
+                    Text="Zjisti BPEJ kód"
+                    VerticalOptions="EndAndExpand"
+                    Clicked="BttnGetBPEJ_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

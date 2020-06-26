@@ -68,7 +68,7 @@ namespace OGSatApp.Pages
 
         private void BttnBPEJ_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushModalAsync(new BPEJPage());
         }
     }
 }
