@@ -18,53 +18,27 @@ namespace OGSatApp.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class BPEJPage : ContentPage
     {
+
         public BPEJPage()
         {
             InitializeComponent();
         }
 
-        private void EntrBPEJcode_Completed(object sender, EventArgs e)
+        private async void EntrBPEJcode_Completed(object sender, EventArgs e)
         {
-            var assembly = IntrospectionExtensions.GetTypeInfo(typeof(BPEJPage)).Assembly;         
-            
-            
-            Stream stream = assembly.GetManifestResourceStream("OGSatApp.FilesBPEJ.KlimatickyRegion.csv");
-            string text = "";
-            using (var reader = new System.IO.StreamReader(stream))
-            {
-                text = reader.ReadToEnd();
-            }
-            string[] lines = text.Split('\n');
-            FillTableSection(TblSctnClimate, lines[0].Split(';'), lines.First(x => x.StartsWith(EntrBPEJcode.Text[0].ToString())).Split(';'));
 
+            var data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.Climate, int.Parse(EntrBPEJcode.Text[0].ToString()));
+            FillTableSection(TblSctnClimate, data.Item1, data.Item2);
 
-            Stream stream2 = assembly.GetManifestResourceStream("OGSatApp.FilesBPEJ.SklonitostExpozice.csv");
-            text = "";
-            using (var reader = new System.IO.StreamReader(stream2))
-            {
-                text = reader.ReadToEnd();
-            }
-            lines = text.Split('\n');
-            FillTableSection(TblSctnInclination, lines[0].Split(';'), lines.First(x => x.StartsWith(EntrBPEJcode.Text[2].ToString())).Split(';'));
+            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.Inclination, int.Parse(EntrBPEJcode.Text[2].ToString()));
+            FillTableSection(TblSctnInclination, data.Item1, data.Item2);
 
-            stream2 = assembly.GetManifestResourceStream("OGSatApp.FilesBPEJ.HloubkaPudySkeletovitost.csv");
-            text = "";
-            using (var reader = new System.IO.StreamReader(stream2))
-            {
-                text = reader.ReadToEnd();
-            }
-            lines = text.Split('\n');
-            FillTableSection(TblSctnSoilDepth, lines[0].Split(';'), lines.First(x => x.StartsWith(EntrBPEJcode.Text[3].ToString())).Split(';'));
+            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilDepth, int.Parse(EntrBPEJcode.Text[3].ToString()));
+            FillTableSection(TblSctnSoilDepth, data.Item1, data.Item2);
 
-            stream2 = assembly.GetManifestResourceStream("OGSatApp.FilesBPEJ.HlavniPudniJednotka.csv");
-            text = "";
-            using (var reader = new System.IO.StreamReader(stream2))
-            {
-                text = reader.ReadToEnd();
-            }
-            lines = text.Split('\n');
-            int index = lines.IndexOf(x => x.StartsWith(EntrBPEJcode.Text.Substring(5, 2)));
-            FillTableSection(TblSctnSoilUnit, new string[] { "Popis"}, new string[] { lines[index + 1] });
+            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)), false);
+            FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis"}, new string[] { data.Item2[0], string.Join(Environment.NewLine, data.Item2.Skip(1))});
+
         }
 
         private void BttnGetBPEJ_Clicked(object sender, EventArgs e)
