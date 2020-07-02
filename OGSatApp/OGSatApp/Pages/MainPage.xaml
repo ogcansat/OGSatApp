@@ -10,14 +10,14 @@
     <StackLayout Padding="0,0,0,50">
         <!-- Place new controls here -->
         <Image Source="@drawable/OGSatLogoBackgroundOff.png" Aspect="AspectFit" AutomationProperties.IsInAccessibleTree="False" HeightRequest="200" HorizontalOptions="Center" IsEnabled="True" VerticalOptions="EndAndExpand" />
-        <Label Text="Welcome in the OGSat App!" 
+        <Label Text="Vítejte v OGSat aplikaci!" 
            HorizontalOptions="Center"
            VerticalOptions="CenterAndExpand" FontSize="Title" TextColor="#000000" />
         <Label x:Name="LblConnectionStatus" Text="Not connected." HorizontalOptions="Center"/>
-        <Button x:Name="BttnConnect" Text="Connect to the RPi" Clicked="BttnConnect_Clicked" />
-        <Button x:Name="BttnSatData" Text="Sattelite Data" Clicked="BttnSatData_Clicked"/>
-        <Button x:Name="BttnBaseData" Text="Base Station Data" Clicked="BttnBaseData_Clicked"/>
-        <Button x:Name="BttnBPEJ" Text="BPEJ" Clicked="BttnBPEJ_Clicked"/>
+        <Button x:Name="BttnConnect" Text="Připojit se k RPi" Clicked="BttnConnect_Clicked" />
+        <Button x:Name="BttnSatData" Text="Data ze satelitu" Clicked="BttnSatData_Clicked"/>
+        <Button x:Name="BttnBaseData" Text="Data z pozemní stanice" Clicked="BttnBaseData_Clicked"/>
+        <Button x:Name="BttnBPEJ" Text="Vypočtení BPEJ kódu" Clicked="BttnBPEJ_Clicked"/>
     </StackLayout>
 
 </ContentPage>

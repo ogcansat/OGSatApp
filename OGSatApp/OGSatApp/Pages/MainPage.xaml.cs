@@ -28,25 +28,24 @@ namespace OGSatApp.Pages
             InitializeComponent();
         }
 
-        private void CheckConnection() => DisplayAlert("Connection demanded", "First connect to the RPi via Connect button.", "Ok");
         private void BttnConnect_Clicked(object sender, EventArgs e) => RefreshConnectionStatus();
 
         private async void RefreshConnectionStatus()
         {
-            UpdateConnectionString("Connecting...", Color.Gray);
+            UpdateConnectionString("Připojování...", Color.Gray);
 
             await Task.Run(() =>
             {
                 switch (BluetoothController.ConnectToRPi())
                 {
                     case ConnectionState.BluetoothOFF:
-                        UpdateConnectionString("Bluetooth is off!", Color.Gray);
+                        UpdateConnectionString("Bluetooth je vypnuto!", Color.Gray);
                         break;
                     case ConnectionState.Failed:
-                        UpdateConnectionString("Connection failed with RPi.",Color.Red);
+                        UpdateConnectionString("Připojení s RPi selhalo.",Color.Red);
                         break;
                     case ConnectionState.Connected:
-                        UpdateConnectionString("Connection established with RPi.", Color.Green);         
+                        UpdateConnectionString("Připojení s RPi navázano.", Color.Green);         
                         break;
                 }
             });

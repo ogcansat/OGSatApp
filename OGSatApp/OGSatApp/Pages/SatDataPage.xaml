@@ -7,7 +7,7 @@
              x:Class="OGSatApp.Pages.SatDataPage" Padding="0">
     <ContentPage.Content>
         <StackLayout Margin="0,0,10,0">
-            <Label Text="Satellite data" 
+            <Label Text="Satelit" 
            HorizontalOptions="Center" VerticalOptions="Start" FontSize="Title" TextColor="#000000" Margin="0,30,0,0" />
             <Label x:Name="LblUpdateTime" Text="" Margin="10,0,0,0" />
             <Grid VerticalOptions="Start" HorizontalOptions="Start" Margin="0" Padding="0">
