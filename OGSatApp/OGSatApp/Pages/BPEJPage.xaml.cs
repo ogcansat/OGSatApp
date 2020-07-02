@@ -12,6 +12,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Internals;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
+using System.Threading;
 
 namespace OGSatApp.Pages
 {
@@ -41,9 +43,21 @@ namespace OGSatApp.Pages
 
         }
 
-        private void BttnGetBPEJ_Clicked(object sender, EventArgs e)
+        private async void BttnGetBPEJ_Clicked(object sender, EventArgs e)
         {
-            
+            var location = await Geolocation.GetLocationAsync();
+
+            if (location != null)
+            {           
+                BluetoothController.SendDataToRPi($"get_bpej {location.Longitude} {location.Latitude}");
+                EntrBPEJcode.Text = await BluetoothController.ReadDataFromRPiAsync();
+                await DisplayAlert("Location", $"Your location:\nLongitude: {location.Longitude}\nLatitude: {location.Latitude}", "OK");
+                EntrBPEJcode_Completed(null, null);
+            }
+            else
+                await DisplayAlert("Location", "Location wasn't found. Check out your location setting.", "OK");
+
+
         }
         private void FillTableSection(TableSection section, string[] columns, string[] values)
         {
