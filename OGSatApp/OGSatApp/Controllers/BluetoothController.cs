@@ -13,36 +13,38 @@ using Xamarin.Forms;
 
 namespace OGSatApp.Controllers
 {
+
     public enum ConnectionState
     {
         Unconnected,
         Connected,
         BluetoothOFF,
-        Failed     
+        Failed
     }
 
     public static class BluetoothController
-    {    
+    {
         public static BluetoothClient Client { get; } = new BluetoothClient();
 
         public static ConnectionState ConnectToRPi()
         {
-            if (!Client.Connected)
+            if (CrossBluetoothLE.Current.State == BluetoothState.On)
             {
-                if (CrossBluetoothLE.Current.State == BluetoothState.On)
+                if (!Client.Connected)
                 {
                     Client.Connect(Client.PairedDevices.ToList().FirstOrDefault(x => x.DeviceName == "raspberrypi").DeviceAddress, BluetoothService.SerialPort);
                     return Client.Connected ? ConnectionState.Connected : ConnectionState.Failed;
                 }
-                else
-                    return ConnectionState.BluetoothOFF;
+                return ConnectionState.Connected;
             }
-            return ConnectionState.Connected;
+            else
+                return ConnectionState.BluetoothOFF;
+
         }
 
         public static string ReadDataFromRPi()
         {
-            while(Client.Connected)
+            while (Client.Connected)
             {
                 string data;
                 byte[] bytes = new byte[500];

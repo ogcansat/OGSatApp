@@ -26,12 +26,13 @@ namespace OGSatApp.Pages
         public MainPage()
         {
             InitializeComponent();
+            RefreshConnectionStatus();
         }
-
-        private void BttnConnect_Clicked(object sender, EventArgs e) => RefreshConnectionStatus();
 
         private async void RefreshConnectionStatus()
         {
+            _ = Task.Run(() => ViewExtensions.RelRotateTo(ImgRefreshConnection, 2800, 10000));
+
             UpdateConnectionString("Připojování...", Color.Gray);
 
             await Task.Run(() =>
@@ -42,13 +43,15 @@ namespace OGSatApp.Pages
                         UpdateConnectionString("Bluetooth je vypnuto!", Color.Gray);
                         break;
                     case ConnectionState.Failed:
-                        UpdateConnectionString("Připojení s RPi selhalo.",Color.Red);
+                        UpdateConnectionString("Připojení s RPi selhalo.", Color.Red);
                         break;
                     case ConnectionState.Connected:
-                        UpdateConnectionString("Připojení s RPi navázano.", Color.Green);         
+                        UpdateConnectionString("Připojení s RPi navázano.", Color.Green);
                         break;
-                }
+                } 
             });
+
+            ViewExtensions.CancelAnimations(ImgRefreshConnection);
 
             void UpdateConnectionString(string text, Color color) => Dispatcher.BeginInvokeOnMainThread(() => { LblConnectionStatus.Text = text; LblConnectionStatus.TextColor = color; });
         }
@@ -69,5 +72,8 @@ namespace OGSatApp.Pages
         {
             Navigation.PushModalAsync(new BPEJPage());
         }
+
+        private void TapGestureRecognizer_Tapped(object sender, EventArgs e) => RefreshConnectionStatus();
+
     }
 }
