@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -11,6 +11,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="FilesBPEJ\HlavniPudniJednotka.csv" />
+    <None Remove="FilesBPEJ\HloubkaPudySkeletovitost.csv" />
+    <None Remove="KlimatickyRegion.csv" />
+    <None Remove="SklonitostExpozice.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="FilesBPEJ\HlavniPudniJednotka.csv" />
+    <EmbeddedResource Include="FilesBPEJ\HloubkaPudySkeletovitost.csv" />
+    <EmbeddedResource Include="FilesBPEJ\KlimatickyRegion.csv" />
+    <EmbeddedResource Include="FilesBPEJ\SklonitostExpozice.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="InTheHand.Net.Bluetooth" Version="4.0.5" />
     <PackageReference Include="Plugin.BLE" Version="2.1.1" />
     <PackageReference Include="Xamarin.Forms" Version="4.4.0.991265" />
@@ -19,6 +33,9 @@
 
   <ItemGroup>
     <EmbeddedResource Update="Pages\BaseDataPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\BPEJPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\SatDataPage.xaml">

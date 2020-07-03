@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:OGSatApp.Pages"
+             xmlns:behaviors="clr-namespace:OGSatApp.Pages.Behaviors"
+             mc:Ignorable="d"
+             x:Class="OGSatApp.Pages.BPEJPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="BPEJ Kód"
+                   HorizontalOptions="CenterAndExpand"
+                   TextColor="#000000"
+                   FontSize="Title" 
+                   Padding="0,20,0,0"/>
+            <Entry Placeholder="Zadejte BPEJ kód (X.XX.XX)"
+                   x:Name="EntrBPEJcode"
+                   Completed="EntrBPEJcode_Completed"
+                   Keyboard="Numeric" HorizontalTextAlignment="Center">
+                <Entry.Behaviors>
+                    <behaviors:BPEJValidationBehavior Mask="X.XX.XX"/>
+                </Entry.Behaviors>
+            </Entry>
+            <TableView Intent="Data" HasUnevenRows="True">
+                <TableRoot>
+                    <TableSection x:Name="TblSctnClimate"
+                                  Title="Klimatický region">
+                        <!--<ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="Test" TextColor="Black"/>
+                                <Label Text="Description" />
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="Test" TextColor="Black"/>
+                                <Label Text="Description" />
+                            </StackLayout>
+                        </ViewCell>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="Test" TextColor="Black"/>
+                                <Label Text="Description &#10;Test &#10;zes" />
+                            </StackLayout>
+                        </ViewCell>-->
+                    </TableSection>
+                    <TableSection x:Name="TblSctnInclination"
+                        Title="Sklonitost a expozice">
+                    </TableSection>
+                    <TableSection x:Name="TblSctnSoilDepth"
+                        Title="Hloubka půdy a skeletovitost">
+                    </TableSection>
+                    <TableSection x:Name="TblSctnSoilUnit"
+                        Title="Hlavní půdní jednotka">
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+
+
+            <Button x:Name="BttnGetBPEJ"
+                    Text="Zjisti BPEJ kód"
+                    VerticalOptions="EndAndExpand"
+                    Clicked="BttnGetBPEJ_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -58,6 +58,11 @@ namespace OGSatApp.Controllers
             return string.Empty;
         }
 
+        public static Task<string> ReadDataFromRPiAsync()
+        {
+            return Task.Factory.StartNew(ReadDataFromRPi, TaskCreationOptions.LongRunning);
+        }
+
         public static bool SendDataToRPi(string data)
         {
             if (Client.Connected)

@@ -70,7 +70,7 @@ namespace OGSatApp.Pages
 
         private void BttnBPEJ_Clicked(object sender, EventArgs e)
         {
-
+            Navigation.PushModalAsync(new BPEJPage());
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e) => RefreshConnectionStatus();
