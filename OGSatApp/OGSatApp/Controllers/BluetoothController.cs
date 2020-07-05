@@ -1,5 +1,6 @@
 ﻿using InTheHand.Net.Bluetooth;
 using InTheHand.Net.Sockets;
+using OGSatApp.Pages.Behaviors;
 using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using System;
@@ -44,6 +45,7 @@ namespace OGSatApp.Controllers
 
         public static string ReadDataFromRPi()
         {
+
             while (Client.Connected)
             {
                 string data;

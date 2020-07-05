@@ -56,8 +56,10 @@
                     </TableSection>
                 </TableRoot>
             </TableView>
-
-
+            <Label x:Name="LblBPEJFinding"
+                   Text="Zjisti svůj BPEJ kód pomocí GPS lokace."
+                   HorizontalOptions="Center"
+                   TextColor="DarkSlateGray"/>
             <Button x:Name="BttnGetBPEJ"
                     Text="Zjisti BPEJ kód"
                     VerticalOptions="EndAndExpand"
