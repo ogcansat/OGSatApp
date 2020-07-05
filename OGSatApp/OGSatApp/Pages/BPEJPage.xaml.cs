@@ -27,8 +27,6 @@ namespace OGSatApp.Pages
         {
             InitializeComponent();
 
-
-
         }
 
         private async void EntrBPEJcode_Completed(object sender, EventArgs e)

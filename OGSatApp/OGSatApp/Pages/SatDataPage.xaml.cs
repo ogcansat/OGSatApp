@@ -16,10 +16,15 @@ namespace OGSatApp.Pages
     public partial class SatDataPage : ContentPage
     {
 
+        private Thread _listener;
+
         public SatDataPage()
         {
             InitializeComponent();
-            new Thread(() =>
+
+            Disappearing += SatDataPage_Disappearing;
+
+            _listener = new Thread(() =>
             {
                 while (true)
                 {
@@ -28,10 +33,17 @@ namespace OGSatApp.Pages
                     Dispatcher.BeginInvokeOnMainThread(() => UpdateData(data));
 
                 }
-            }).Start();
+            });
+
+            _listener.Start();
 
         }
 
+        private void SatDataPage_Disappearing(object sender, EventArgs e)
+        {
+            BluetoothController.SendDataToRPi("dataOFF");
+            _listener.Abort();
+        }
 
         public void UpdateData(string data)
         {

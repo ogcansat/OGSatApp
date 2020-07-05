@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,17 +17,29 @@ namespace OGSatApp.Pages
     public partial class BaseDataPage : ContentPage
     {
 
+        private Thread _listener;
+
         public BaseDataPage()
         {
             InitializeComponent();
-            new Thread(() =>
+
+            Disappearing += BaseDataPage_Disappearing;
+
+            _listener = new Thread(() =>
             {
                 while (true)
                 {
                     string data = BluetoothController.ReadDataFromRPi();
                     Dispatcher.BeginInvokeOnMainThread(() => UpdateData(data));
                 }
-            }).Start();
+            });
+            _listener.Start();
+        }
+
+        private void BaseDataPage_Disappearing(object sender, EventArgs e)
+        {
+            BluetoothController.SendDataToRPi("dataOFF");
+            _listener.Abort();
         }
 
         public void UpdateData(string data)
