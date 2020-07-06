@@ -81,7 +81,7 @@ namespace OGSatApp.Pages
                 }
             }
 
-            LblUpdateTime.Text = "Last updated: " + DateTime.Now.ToLongTimeString();
+            LblUpdateTime.Text = "Poslední aktualizace: " + DateTime.Now.ToString("HH:mm:ss");
 
         }
 
