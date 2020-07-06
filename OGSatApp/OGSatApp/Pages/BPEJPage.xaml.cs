@@ -16,6 +16,7 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using OGSatApp.Pages.Behaviors;
 using System.Threading;
+using System.Diagnostics;
 
 namespace OGSatApp.Pages
 {
@@ -52,22 +53,32 @@ namespace OGSatApp.Pages
 
             var token = GUIAnimations.DotLoadingAnimation(LblBPEJFinding, "Vyhodnocování", 7, 300);
 
-            var location = await Geolocation.GetLocationAsync();
+            Location location = null;
 
-            if (location != null)
+            try
             {
+                location = await Geolocation.GetLocationAsync();
+
                 BluetoothController.SendDataToRPi($"get_bpej {location.Longitude} {location.Latitude}");
+                await Task.Delay(1000);
                 EntrBPEJcode.Text = await BluetoothController.ReadDataFromRPiAsync();
-                
+
                 EntrBPEJcode_Completed(null, null);
             }
-
+            catch (FeatureNotEnabledException)
+            {
+                _ = DisplayAlert("Lokace není povolená", "Pro použití funkce si povolte lokaci v telefonu.", "OK");
+            }
+            catch(Exception ex)
+            {
+                _ = DisplayAlert("Debug - Exception", ex.Message, "OK");
+            }
 
             token.Cancel();
             await Task.Delay(500);
 
             LblBPEJFinding.Text = location != null ? $"Vaše pozice | z. délka: {location.Longitude}, z. šířka: {location.Latitude}" : "Vaši pozici se nepodařilo lokalizovat.";
-            
+
             BttnGetBPEJ.IsEnabled = true;
         }
 
