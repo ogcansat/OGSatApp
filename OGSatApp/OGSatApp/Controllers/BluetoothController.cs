@@ -31,12 +31,12 @@ namespace OGSatApp.Controllers
         {
             if (CrossBluetoothLE.Current.State == BluetoothState.On)
             {
-                if (!Client.Connected)
-                {
+                //if (!Client.Connected)
+                //{
                     Client.Connect(Client.PairedDevices.ToList().FirstOrDefault(x => x.DeviceName == "raspberrypi").DeviceAddress, BluetoothService.SerialPort);
                     return Client.Connected ? ConnectionState.Connected : ConnectionState.Failed;
-                }
-                return ConnectionState.Connected;
+                //}
+                //return ConnectionState.Connected;
             }
             else
                 return ConnectionState.BluetoothOFF;

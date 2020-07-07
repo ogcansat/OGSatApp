@@ -14,6 +14,7 @@ using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
 using System.Threading;
 using OGSatApp.Controllers;
+using System.Diagnostics;
 
 namespace OGSatApp.Pages
 {
@@ -75,5 +76,28 @@ namespace OGSatApp.Pages
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e) => RefreshConnectionStatus();
 
+        private async void ImgShutdown_Tapped(object sender, EventArgs e)
+        {
+            if (!BluetoothController.Client.Connected)
+                return;
+
+            string result = await DisplayActionSheet("Vyberte akci", "Zrušit", "", "Vypnout RPi", "Resetovat RPi", "Resetovat data monitoring");
+            switch (result)
+            {
+                case "Vypnout RPi":
+                    BluetoothController.SendDataToRPi("shutdown");
+                    RefreshConnectionStatus();
+                    break;
+                case "Resetovat RPi":
+                    BluetoothController.SendDataToRPi("reboot");
+                    RefreshConnectionStatus();
+                    await Task.Delay(10_000);
+                    RefreshConnectionStatus();
+                    break;
+                case "Resetovat data monitoring":
+                    BluetoothController.SendDataToRPi("restartOG");
+                    break;
+            }
+        }
     }
 }
