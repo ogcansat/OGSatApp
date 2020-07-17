@@ -33,17 +33,17 @@ namespace OGSatApp.Pages
         private async void EntrBPEJcode_Completed(object sender, EventArgs e)
         {
 
-            var data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.Climate, int.Parse(EntrBPEJcode.Text[0].ToString()));
+            var data = await BPEJController.LoadRecordFromCodeWithHeader(CodeBPEJ.Climate, int.Parse(EntrBPEJcode.Text[0].ToString()));
             FillTableSection(TblSctnClimate, data.Item1, data.Item2);
 
-            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.Inclination, int.Parse(EntrBPEJcode.Text[2].ToString()));
+            data = await BPEJController.LoadRecordFromCodeWithHeader(CodeBPEJ.Inclination, int.Parse(EntrBPEJcode.Text[2].ToString()));
             FillTableSection(TblSctnInclination, data.Item1, data.Item2);
 
-            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilDepth, int.Parse(EntrBPEJcode.Text[3].ToString()));
+            data = await BPEJController.LoadRecordFromCodeWithHeader(CodeBPEJ.SoilDepth, int.Parse(EntrBPEJcode.Text[3].ToString()));
             FillTableSection(TblSctnSoilDepth, data.Item1, data.Item2);
 
-            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)), false);
-            FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis" }, new string[] { data.Item2[0], string.Join(Environment.NewLine, data.Item2.Skip(1)) });
+            var rows = await BPEJController.LoadBlockRecordsFromCodeWithoudHeader(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)));
+            FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis" }, new string[] { rows[0], string.Join(Environment.NewLine, rows.Skip(1)) });
 
         }
 

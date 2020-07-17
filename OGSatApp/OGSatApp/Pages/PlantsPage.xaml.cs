@@ -23,7 +23,7 @@ namespace OGSatApp.Pages
 
         private async void Fill()
         {
-            var items = await BPEJController.LoadPlantsDetailsAsync();
+            var items = await BPEJController.LoadRecordsWithHeader(CodeBPEJ.Plants);
             string[] names = new string[items.Item2.Length];
             for (int i = 0; i < names.Length; i++)
             {
