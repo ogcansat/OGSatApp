@@ -15,7 +15,8 @@ namespace OGSatApp.Controllers
         Climate,
         Inclination,
         SoilDepth,
-        SoilUnit
+        SoilUnit,
+        Plants
     }
 
     public static class BPEJController
@@ -25,15 +26,14 @@ namespace OGSatApp.Controllers
             {CodeBPEJ.Climate, "OGSatApp.FilesBPEJ.KlimatickyRegion.csv" },
             {CodeBPEJ.Inclination, "OGSatApp.FilesBPEJ.SklonitostExpozice.csv"},
             {CodeBPEJ.SoilDepth,  "OGSatApp.FilesBPEJ.HloubkaPudySkeletovitost.csv"},
-            {CodeBPEJ.SoilUnit, "OGSatApp.FilesBPEJ.HlavniPudniJednotka.csv" }
+            {CodeBPEJ.SoilUnit, "OGSatApp.FilesBPEJ.HlavniPudniJednotka.csv" },
+            {CodeBPEJ.Plants, "OGSatApp.FilesBPEJ.Rostliny.csv" }
         };
         private static Assembly _assembly = IntrospectionExtensions.GetTypeInfo(typeof(BPEJController)).Assembly;
 
 
-
-        public static async Task<Tuple<string[], string[]>> LoadBPEJDetailsAsync(CodeBPEJ file, int code, bool row = true)
+        private static async Task<string[]> LoadRows(CodeBPEJ file)
         {
-
             string[] lines;
 
             using (Stream stream = _assembly.GetManifestResourceStream(_fileBPEJ[file]))
@@ -46,8 +46,17 @@ namespace OGSatApp.Controllers
                 lines = text.Split('\n');
             }
 
+            return lines;
+        }
+
+
+        public static async Task<(string[], string[])> LoadBPEJDetailsAsync(CodeBPEJ file, int code, bool row = true)
+        {
+
+            string[] lines = await LoadRows(file);
+
             if (row)
-                return new Tuple<string[], string[]>(lines[0].Split(';'), lines.First(x => x.StartsWith(code.ToString())).Split(';'));
+                return (lines[0].Split(';'), lines.First(x => x.StartsWith(code.ToString())).Split(';'));
             else
             {
                 int indexCode = lines.IndexOf(x => x.StartsWith(code.ToString()));
@@ -55,9 +64,27 @@ namespace OGSatApp.Controllers
 
                 string[] data = lines.Skip(indexCode).Take((lastCode - indexCode)).ToArray();
 
-                return new Tuple<string[], string[]>(null, data);
+                return (null, data);
             }
             
+        }
+
+
+        public static async Task<(string[], string[][])> LoadPlantsDetailsAsync()
+        {
+
+            string[] lines = await LoadRows(CodeBPEJ.Plants);
+
+            int index = 0;
+            string[][] values = new string[lines.Length - 1][];
+            lines.Skip(1).ForEach(x =>
+            {
+                values[index++] = x.Split(';');
+            });
+
+            return (lines[0].Split(';'), values);
+
+
         }
 
 

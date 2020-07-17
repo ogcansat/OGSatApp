@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Remove="FilesBPEJ\HlavniPudniJednotka.csv" />
     <None Remove="FilesBPEJ\HloubkaPudySkeletovitost.csv" />
+    <None Remove="FilesBPEJ\Rostliny.csv" />
     <None Remove="KlimatickyRegion.csv" />
     <None Remove="SklonitostExpozice.csv" />
   </ItemGroup>
@@ -21,6 +22,7 @@
     <EmbeddedResource Include="FilesBPEJ\HlavniPudniJednotka.csv" />
     <EmbeddedResource Include="FilesBPEJ\HloubkaPudySkeletovitost.csv" />
     <EmbeddedResource Include="FilesBPEJ\KlimatickyRegion.csv" />
+    <EmbeddedResource Include="FilesBPEJ\Rostliny.csv" />
     <EmbeddedResource Include="FilesBPEJ\SklonitostExpozice.csv" />
   </ItemGroup>
 
@@ -36,6 +38,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\BPEJPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PlantsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\SatDataPage.xaml">

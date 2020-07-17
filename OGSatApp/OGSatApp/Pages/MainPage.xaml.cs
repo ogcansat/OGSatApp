@@ -99,5 +99,10 @@ namespace OGSatApp.Pages
                     break;
             }
         }
+
+        private void BttnPlants_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new PlantsPage());
+        }
     }
 }
