@@ -34,16 +34,16 @@ namespace OGSatApp.Pages
         {
 
             var data = await BPEJController.LoadRecordFromCodeWithHeader(CodeBPEJ.Climate, int.Parse(EntrBPEJcode.Text[0].ToString()));
-            FillTableSection(TblSctnClimate, data.Item1, data.Item2);
+            GUIAnimations.FillTableSection(TblSctnClimate, data.Item1, data.Item2);
 
             data = await BPEJController.LoadRecordFromCodeWithHeader(CodeBPEJ.Inclination, int.Parse(EntrBPEJcode.Text[2].ToString()));
-            FillTableSection(TblSctnInclination, data.Item1, data.Item2);
+            GUIAnimations.FillTableSection(TblSctnInclination, data.Item1, data.Item2);
 
             data = await BPEJController.LoadRecordFromCodeWithHeader(CodeBPEJ.SoilDepth, int.Parse(EntrBPEJcode.Text[3].ToString()));
-            FillTableSection(TblSctnSoilDepth, data.Item1, data.Item2);
+            GUIAnimations.FillTableSection(TblSctnSoilDepth, data.Item1, data.Item2);
 
             var rows = await BPEJController.LoadBlockRecordsFromCodeWithoudHeader(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)));
-            FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis" }, new string[] { rows[0], string.Join(Environment.NewLine, rows.Skip(1)) });
+            GUIAnimations.FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis" }, new string[] { rows[0], string.Join(Environment.NewLine, rows.Skip(1)) });
 
         }
 
@@ -82,18 +82,5 @@ namespace OGSatApp.Pages
             BttnGetBPEJ.IsEnabled = true;
         }
 
-
-        private void FillTableSection(TableSection section, string[] columns, string[] values)
-        {
-            section.Clear();
-
-            for (int i = 0; i < columns.Length; i++)
-            {
-                var layout = new StackLayout() { Padding = 10 };
-                layout.Children.Add(new Label() { Text = columns[i], TextColor = Color.Black });
-                layout.Children.Add(new Label() { Text = values[i] });
-                section.Add(new ViewCell() { View = layout });
-            }
-        }
     }
 }
