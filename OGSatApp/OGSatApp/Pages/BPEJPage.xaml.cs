@@ -45,6 +45,13 @@ namespace OGSatApp.Pages
             var rows = await BPEJController.LoadBlockRecordsFromCodeWithoudHeader(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)));
             GUIAnimations.FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis" }, new string[] { rows[0], string.Join(Environment.NewLine, rows.Skip(1)) });
 
+            GUIAnimations.FillTableSection(TblSctnPlants, new string[] { "Javor klen (strom)", "Bříza bělokorá (strom)", "Lípa malolistá (srdčitá) (strom)" }, null,
+                async (s, a) => 
+                {
+                    var plant = (((s as ViewCell).View as StackLayout).Children[0] as Label).Text;
+                    await Navigation.PushModalAsync(new PlantsPage(plant));
+                });
+
         }
 
         private async void BttnGetBPEJ_Clicked(object sender, EventArgs e)
@@ -69,7 +76,7 @@ namespace OGSatApp.Pages
             {
                 _ = DisplayAlert("Lokace není povolená", "Pro použití funkce si povolte lokaci v telefonu.", "OK");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _ = DisplayAlert("Debug - Exception", ex.Message, "OK");
             }

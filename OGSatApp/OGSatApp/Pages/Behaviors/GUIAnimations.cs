@@ -40,16 +40,19 @@ namespace OGSatApp.Pages.Behaviors
            
         }
 
-        public static void FillTableSection(TableSection section, string[] columns, string[] values)
+        public static void FillTableSection(TableSection section, string[] columns, string[] values, EventHandler handler = null)
         {
             section.Clear();
 
             for (int i = 0; i < columns.Length; i++)
             {
-                var layout = new StackLayout() { Padding = 10 };
+                var layout = new StackLayout() { Padding = 10};
                 layout.Children.Add(new Label() { Text = columns[i], TextColor = Color.Black });
-                layout.Children.Add(new Label() { Text = values[i] });
-                section.Add(new ViewCell() { View = layout });
+                if (values != null)
+                    layout.Children.Add(new Label() { Text = values[i], Padding=new Thickness(10,0,10,0) });
+                var cell = new ViewCell() { View = layout };
+                cell.Tapped += handler;
+                section.Add(cell);
             }
         }
     }

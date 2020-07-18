@@ -8,12 +8,11 @@
              mc:Ignorable="d"
              x:Class="OGSatApp.Pages.BPEJPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Padding="10,20,10,10">
             <Label Text="BPEJ Kód"
                    HorizontalOptions="CenterAndExpand"
                    TextColor="#000000"
-                   FontSize="Title" 
-                   Padding="0,20,0,0"/>
+                   FontSize="Title"/>
             <Entry Placeholder="Zadejte BPEJ kód (X.XX.XX)"
                    x:Name="EntrBPEJcode"
                    Completed="EntrBPEJcode_Completed"
@@ -24,22 +23,13 @@
             </Entry>
             <TableView Intent="Data" HasUnevenRows="True">
                 <TableRoot>
+                    <TableSection x:Name="TblSctnPlants"
+                                  Title="Vhodné rostliny (klikněte na rostlinu pro více info)">
+                    </TableSection>
                     <TableSection x:Name="TblSctnClimate"
                                   Title="Klimatický region">
                         <!--<ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="Test" TextColor="Black"/>
-                                <Label Text="Description" />
-                            </StackLayout>
-                        </ViewCell>
-                        <ViewCell>
-                            <StackLayout Padding="10">
-                                <Label Text="Test" TextColor="Black"/>
-                                <Label Text="Description" />
-                            </StackLayout>
-                        </ViewCell>
-                        <ViewCell>
-                            <StackLayout Padding="10">
+                            <StackLayout Padding="20,10,20,10">
                                 <Label Text="Test" TextColor="Black"/>
                                 <Label Text="Description &#10;Test &#10;zes" />
                             </StackLayout>

@@ -6,8 +6,8 @@
              mc:Ignorable="d"
              x:Class="OGSatApp.Pages.PlantsPage">
     <ContentPage.Content>
-        <StackLayout Padding="10">
-            <Label Text="Rostliny" FontSize="Title" HorizontalOptions="CenterAndExpand"/>
+        <StackLayout Padding="10,20,10,10">
+            <Label Text="Rostliny" FontSize="Title" HorizontalOptions="CenterAndExpand" TextColor="Black"/>
             <Picker Title="Vyber rostlinu" x:Name="PckrPlants" FontSize="Large" HorizontalOptions="Fill" SelectedIndexChanged="PckrPlants_SelectedIndexChanged"/>
             <TableView Intent="Data" HasUnevenRows="True">
                 <TableRoot>

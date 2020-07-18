@@ -26,6 +26,13 @@ namespace OGSatApp.Pages
             LoadPlants();
         }
 
+        public PlantsPage(string plant)
+        {
+            InitializeComponent();
+            LoadPlants();
+            PckrPlants.SelectedItem = plant;
+        }
+
         private async void LoadPlants()
         {
             _plants = await BPEJController.LoadRecordsWithHeader(CodeBPEJ.Plants);
