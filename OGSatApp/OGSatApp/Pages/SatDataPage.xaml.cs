@@ -24,12 +24,12 @@ namespace OGSatApp.Pages
 
             Disappearing += SatDataPage_Disappearing;
 
-            _listener = new Thread(() =>
+            _listener = new Thread(async () =>
             {
                 while (true)
                 {
 
-                    string data = BluetoothController.ReadDataFromRPi();
+                    string data = await BluetoothController.ReadDataFromRPiAsync();
                     Dispatcher.BeginInvokeOnMainThread(() => UpdateData(data));
 
                 }

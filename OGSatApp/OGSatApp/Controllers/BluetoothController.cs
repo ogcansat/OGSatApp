@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,16 +26,30 @@ namespace OGSatApp.Controllers
 
     public static class BluetoothController
     {
-        public static BluetoothClient Client { get; } = new BluetoothClient();
+        public readonly static BluetoothClient _client = new BluetoothClient();
 
+        public static async Task<string> ReadDataFromRPiAsync()
+        {
+            string data;
+            byte[] bytes = new byte[1000];
+            await _client.GetStream().ReadAsync(bytes, 0, bytes.Length);
+            data = Encoding.ASCII.GetString(bytes).Trim('\0');
+            return data;
+        }
+
+
+
+        #region ObsoleteMethods
+
+        [Obsolete]
         public static ConnectionState ConnectToRPi()
         {
             if (CrossBluetoothLE.Current.State == BluetoothState.On)
             {
                 //if (!Client.Connected)
                 //{
-                    Client.Connect(Client.PairedDevices.ToList().FirstOrDefault(x => x.DeviceName == "raspberrypi").DeviceAddress, BluetoothService.SerialPort);
-                    return Client.Connected ? ConnectionState.Connected : ConnectionState.Failed;
+                _client.Connect(_client.PairedDevices.ToList().FirstOrDefault(x => x.DeviceName == "raspberrypi").DeviceAddress, BluetoothService.SerialPort);
+                return _client.Connected ? ConnectionState.Connected : ConnectionState.Failed;
                 //}
                 //return ConnectionState.Connected;
             }
@@ -43,14 +58,15 @@ namespace OGSatApp.Controllers
 
         }
 
+        [Obsolete("Use ReadDataFromRPiAsync method instead.")]
         public static string ReadDataFromRPi()
         {
 
-            while (Client.Connected)
+            while (_client.Connected)
             {
                 string data;
                 byte[] bytes = new byte[500];
-                Client.GetStream().Read(bytes, 0, bytes.Length);
+                _client.GetStream().Read(bytes, 0, bytes.Length);
                 data = Encoding.ASCII.GetString(bytes).Trim('\0');
                 if (!string.IsNullOrWhiteSpace(data))
                 {
@@ -60,20 +76,19 @@ namespace OGSatApp.Controllers
             return string.Empty;
         }
 
-        public static Task<string> ReadDataFromRPiAsync()
-        {
-            return Task.Factory.StartNew(ReadDataFromRPi, TaskCreationOptions.LongRunning);
-        }
 
+        [Obsolete]
         public static bool SendDataToRPi(string data)
         {
-            if (Client.Connected)
+            if (_client.Connected)
             {
                 byte[] bytes = Encoding.ASCII.GetBytes(data);
-                Client.GetStream().WriteAsync(bytes, 0, bytes.Length);
+                _client.GetStream().WriteAsync(bytes, 0, bytes.Length);
                 return true;
             }
             return false;
         }
+
+        #endregion
     }
 }

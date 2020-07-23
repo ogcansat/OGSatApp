@@ -78,7 +78,7 @@ namespace OGSatApp.Pages
 
         private async void ImgShutdown_Tapped(object sender, EventArgs e)
         {
-            if (!BluetoothController.Client.Connected)
+            if (!BluetoothController._client.Connected)
                 return;
 
             string result = await DisplayActionSheet("Vyberte akci", "Zrušit", "", "Vypnout RPi", "Resetovat RPi", "Resetovat data monitoring");
