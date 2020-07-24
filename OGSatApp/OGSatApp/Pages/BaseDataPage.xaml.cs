@@ -1,4 +1,5 @@
 ﻿using OGSatApp.Controllers;
+using OGSatApp.Pages.Behaviors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,15 @@ namespace OGSatApp.Pages
                 while (true)
                 {
                     string data = BluetoothController.ReadDataFromRPi();
-                    Dispatcher.BeginInvokeOnMainThread(() => UpdateData(data));
+                    Dispatcher.BeginInvokeOnMainThread(() => GUIAnimations.UpdateData(data, new Dictionary<string, Label>()
+                    {
+                        {"Temperature", LblTemp },
+                        {"Humidity", LblHum },
+                        {"Pressure", LblPress },
+                        {"Altitude", LblAlt },
+                        {"Light", LblLight },
+                        {"SoilHum", LblSoil }
+                    }, LblUpdateTime));
                 }
             });
             _listener.Start();

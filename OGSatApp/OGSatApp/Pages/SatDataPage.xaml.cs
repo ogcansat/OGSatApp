@@ -1,4 +1,5 @@
 ﻿using OGSatApp.Controllers;
+using OGSatApp.Pages.Behaviors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,18 @@ namespace OGSatApp.Pages
                 {
 
                     string data = BluetoothController.ReadDataFromRPi();
-                    Dispatcher.BeginInvokeOnMainThread(() => UpdateData(data));
+                    
+
+                    Dispatcher.BeginInvokeOnMainThread(() => GUIAnimations.UpdateData(data, new Dictionary<string, Label>()
+                    {
+                        {"MessageID", LblMessage },
+                        {"Temperature", LblTemp },
+                        {"Humidity", LblHum },
+                        {"Pressure", LblPress },
+                        {"Altitude", LblAlt },
+                        {"Longitude", LblLong },
+                        {"Latitude", LblLat }
+                    }, LblUpdateTime));
 
                 }
             });
@@ -45,7 +57,7 @@ namespace OGSatApp.Pages
             _listener.Abort();
         }
 
-        public void UpdateData(string data)
+        /*public void UpdateData(string data)
         {
 
             if (string.IsNullOrWhiteSpace(data))
@@ -83,7 +95,7 @@ namespace OGSatApp.Pages
 
             LblUpdateTime.Text = "Poslední aktualizace: " + DateTime.Now.ToString("HH:mm:ss");
 
-        }
+        }*/
 
 
     }

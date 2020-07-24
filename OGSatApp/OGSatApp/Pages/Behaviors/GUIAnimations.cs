@@ -6,6 +6,7 @@ using System.Threading;
 
 using Xamarin.Forms;
 using Timer = System.Timers.Timer;
+using System.Linq;
 
 namespace OGSatApp.Pages.Behaviors
 {
@@ -38,6 +39,25 @@ namespace OGSatApp.Pages.Behaviors
 
             return token;
            
+        }
+
+        public static void UpdateData(string dataLine, Dictionary<string, Label> items, Label updateTime)
+        {
+
+            string[] lines = dataLine.Split('\n');
+            foreach (var item in lines)
+            {
+                string[] values = item.Split(':');
+
+                if (string.IsNullOrWhiteSpace(values[0]))
+                    continue;
+
+                var result = items.FirstOrDefault(x => x.Key == values[0]);
+                if (result.Key != null)
+                    result.Value.Text = values[1] + (result.Value.Text.Split(' ').Length >= 2 ? " " + result.Value.Text.Split(' ')[1] : "");
+            }
+
+            updateTime.Text = "Poslední aktualizace: " + DateTime.Now.ToString("HH:mm:ss");
         }
     }
 }
