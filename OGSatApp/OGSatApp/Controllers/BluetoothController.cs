@@ -65,7 +65,7 @@ namespace OGSatApp.Controllers
             string data;
             byte[] bytes = new byte[buffer];
             await _client.GetStream().ReadAsync(bytes, 0, bytes.Length);
-            data = Encoding.ASCII.GetString(bytes).Trim('\0');
+            data = Encoding.UTF8.GetString(bytes).Trim('\0');
             return data;
         }
 
@@ -76,7 +76,7 @@ namespace OGSatApp.Controllers
         /// <returns>Returns task</returns>
         public static async Task SendQueryToRPiAsync(string query)
         {
-            byte[] bytes = Encoding.ASCII.GetBytes(query);
+            byte[] bytes = Encoding.UTF8.GetBytes(query);
             await _client.GetStream().WriteAsync(bytes, 0, bytes.Length);
         }
 
