@@ -25,20 +25,22 @@ namespace OGSatApp.Pages
 
             Disappearing += BaseDataPage_Disappearing;
 
-            _listener = new Thread(() =>
+            _listener = new Thread(async () =>
             {
                 while (true)
                 {
-                    string data = BluetoothController.ReadDataFromRPi();
+                    string data = await BluetoothController.ReadDataFromRPiAsync();
                     Dispatcher.BeginInvokeOnMainThread(() => UpdateData(data));
                 }
             });
+
+            _ = BluetoothController.SendQueryToRPiAsync(Query.DataBaseStation);
             _listener.Start();
         }
 
-        private void BaseDataPage_Disappearing(object sender, EventArgs e)
+        private async void BaseDataPage_Disappearing(object sender, EventArgs e)
         {
-            BluetoothController.SendDataToRPi("dataOFF");
+            await BluetoothController.SendQueryToRPiAsync(Query.DataOFF);
             _listener.Abort();
         }
 

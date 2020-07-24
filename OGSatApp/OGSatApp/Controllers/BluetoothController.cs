@@ -7,15 +7,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using OGSatApp.Misc;
 
 namespace OGSatApp.Controllers
 {
 
+    /// <summary>
+    /// Connection status Enum
+    /// </summary>
     public enum ConnectionState
     {
         Unconnected,
@@ -24,17 +30,75 @@ namespace OGSatApp.Controllers
         Failed
     }
 
+
+    public enum Query
+    {
+        [StringValue("dataON sat")]
+        DataSatellite,
+        [StringValue("dataON bs")]
+        DataBaseStation,
+        [StringValue("dataOFF")]
+        DataOFF
+    }
+
+
+    /// <summary>
+    /// Class for communication with connected device (RPi)
+    /// </summary>
     public static class BluetoothController
     {
-        public readonly static BluetoothClient _client = new BluetoothClient();
 
-        public static async Task<string> ReadDataFromRPiAsync()
+        /// <summary>
+        /// Private field for connected device
+        /// </summary>
+        private readonly static BluetoothClient _client = new BluetoothClient();
+
+        public static ConnectionState ConnectionStatus { get; private set; }
+
+        /// <summary>
+        /// Read data from connected device
+        /// </summary>
+        /// <param name="buffer">Size of buffer</param>
+        /// <returns>Returns task that returns single line of string of readed data/returns>
+        public static async Task<string> ReadDataFromRPiAsync(int buffer = 1000)
         {
             string data;
-            byte[] bytes = new byte[1000];
+            byte[] bytes = new byte[buffer];
             await _client.GetStream().ReadAsync(bytes, 0, bytes.Length);
             data = Encoding.ASCII.GetString(bytes).Trim('\0');
             return data;
+        }
+
+        /// <summary>
+        /// Sends query to connected device
+        /// </summary>
+        /// <param name="query">query to send</param>
+        /// <returns>Returns task</returns>
+        public static async Task SendQueryToRPiAsync(string query)
+        {
+            byte[] bytes = Encoding.ASCII.GetBytes(query);
+            await _client.GetStream().WriteAsync(bytes, 0, bytes.Length);
+        }
+
+        public static async Task SendQueryToRPiAsync(Query query)
+        {
+            await SendQueryToRPiAsync(query.GetStringValue());
+        }
+
+
+
+        /// <summary>
+        /// Sends query to device and read data
+        /// </summary>
+        /// <param name="query">Query to send to the device</param>
+        /// <param name="buffer">Size of buffer for reading message</param>
+        /// <param name="delay">Delay in ms between Write query and Read data</param>
+        /// <returns>Returns task with result of single line of readed data</returns>
+        public static async Task<string> GetDataFromRPiAsync(string query, int buffer = 1000, int delay = 500)
+        {
+            await SendQueryToRPiAsync(query);
+            await Task.Delay(delay);
+            return await ReadDataFromRPiAsync(buffer);
         }
 
 

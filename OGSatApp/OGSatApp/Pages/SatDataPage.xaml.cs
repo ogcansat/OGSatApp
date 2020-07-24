@@ -31,17 +31,18 @@ namespace OGSatApp.Pages
 
                     string data = await BluetoothController.ReadDataFromRPiAsync();
                     Dispatcher.BeginInvokeOnMainThread(() => UpdateData(data));
-
                 }
             });
 
+
+            _ = BluetoothController.SendQueryToRPiAsync(Query.DataSatellite);
             _listener.Start();
 
         }
 
-        private void SatDataPage_Disappearing(object sender, EventArgs e)
+        private async void SatDataPage_Disappearing(object sender, EventArgs e)
         {
-            BluetoothController.SendDataToRPi("dataOFF");
+            await BluetoothController.SendQueryToRPiAsync(Query.DataOFF);
             _listener.Abort();
         }
 

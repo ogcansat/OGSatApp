@@ -59,13 +59,13 @@ namespace OGSatApp.Pages
 
         private void BttnSatData_Clicked(object sender, EventArgs e)
         {
-            BluetoothController.SendDataToRPi("dataON sat");
+           // BluetoothController.SendDataToRPi("dataON sat");
             Navigation.PushModalAsync(new SatDataPage());
         }
 
         private void BttnBaseData_Clicked(object sender, EventArgs e)
         {
-            BluetoothController.SendDataToRPi("dataON bs");
+            //BluetoothController.SendDataToRPi("dataON bs");
             Navigation.PushModalAsync(new BaseDataPage());
         }
 
@@ -78,8 +78,8 @@ namespace OGSatApp.Pages
 
         private async void ImgShutdown_Tapped(object sender, EventArgs e)
         {
-            if (!BluetoothController._client.Connected)
-                return;
+            //if (!BluetoothController._client.Connected)
+                //return;
 
             string result = await DisplayActionSheet("Vyberte akci", "Zrušit", "", "Vypnout RPi", "Resetovat RPi", "Resetovat data monitoring");
             switch (result)
