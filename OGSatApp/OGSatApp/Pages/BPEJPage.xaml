@@ -14,14 +14,24 @@
                    TextColor="#000000"
                    FontSize="Title" 
                    Padding="0,20,0,0"/>
-            <Entry Placeholder="Zadejte BPEJ kód (X.XX.XX)"
-                   x:Name="EntrBPEJcode"
-                   Completed="EntrBPEJcode_Completed"
-                   Keyboard="Numeric" HorizontalTextAlignment="Center">
-                <Entry.Behaviors>
-                    <behaviors:BPEJValidationBehavior Mask="X.XX.XX"/>
-                </Entry.Behaviors>
-            </Entry>
+            <StackLayout Orientation="Horizontal">
+                <Entry Placeholder="Zadejte BPEJ kód (X.XX.XX)"
+                       x:Name="EntrBPEJcode"
+                       Completed="EntrBPEJcode_Completed"
+                       Keyboard="Numeric"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="FillAndExpand">
+                    <Entry.Behaviors>
+                        <behaviors:BPEJValidationBehavior Mask="X.XX.XX"/>
+                    </Entry.Behaviors>
+                </Entry>
+                <Image Source="@drawable/RefreshIcon.png"
+                       HorizontalOptions="End"
+                       HeightRequest="40"
+                       x:Name="ImgLoadingInfoBPEJ"/>
+            </StackLayout>
+
+
             <TableView Intent="Data" HasUnevenRows="True">
                 <TableRoot>
                     <TableSection x:Name="TblSctnClimate"

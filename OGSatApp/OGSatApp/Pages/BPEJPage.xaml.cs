@@ -32,18 +32,22 @@ namespace OGSatApp.Pages
 
         private async void EntrBPEJcode_Completed(object sender, EventArgs e)
         {
+            _ = ViewExtensions.RelRotateTo(ImgLoadingInfoBPEJ, 2800, 10000);
 
-            var data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.Climate, int.Parse(EntrBPEJcode.Text[0].ToString()));
-            FillTableSection(TblSctnClimate, data.Item1, data.Item2);
 
-            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.Inclination, int.Parse(EntrBPEJcode.Text[2].ToString()));
-            FillTableSection(TblSctnInclination, data.Item1, data.Item2);
+            var data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text, 10000);
 
-            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilDepth, int.Parse(EntrBPEJcode.Text[3].ToString()));
-            FillTableSection(TblSctnSoilDepth, data.Item1, data.Item2);
+            FillTableSection(TblSctnClimate, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+            FillTableSection(TblSctnInclination, data.Split('\n')[2].Split(';'), data.Split('\n')[3].Split(';'));
+            FillTableSection(TblSctnSoilDepth, data.Split('\n')[4].Split(';'), data.Split('\n')[5].Split(';'));
 
-            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)), false);
-            FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis" }, new string[] { data.Item2[0], string.Join(Environment.NewLine, data.Item2.Skip(1)) });
+
+            ViewExtensions.CancelAnimations(ImgLoadingInfoBPEJ);
+
+
+            //data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)), false);
+            //FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis" }, new string[] { data.Item2[0], string.Join(Environment.NewLine, data.Item2.Skip(1)) });
+
 
         }
 

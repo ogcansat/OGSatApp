@@ -94,7 +94,7 @@ namespace OGSatApp.Controllers
         /// <param name="buffer">Size of buffer for reading message</param>
         /// <param name="delay">Delay in ms between Write query and Read data</param>
         /// <returns>Returns task with result of single line of readed data</returns>
-        public static async Task<string> GetDataFromRPiAsync(string query, int buffer = 1000, int delay = 500)
+        public static async Task<string> GetDataFromRPiAsync(string query, int buffer = 1000, int delay = 100)
         {
             await SendQueryToRPiAsync(query);
             await Task.Delay(delay);
@@ -147,7 +147,7 @@ namespace OGSatApp.Controllers
             if (_client.Connected)
             {
                 byte[] bytes = Encoding.ASCII.GetBytes(data);
-                _client.GetStream().WriteAsync(bytes, 0, bytes.Length);
+                _client.GetStream().Write(bytes, 0, bytes.Length);
                 return true;
             }
             return false;
