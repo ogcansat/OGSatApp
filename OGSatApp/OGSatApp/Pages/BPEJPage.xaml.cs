@@ -32,17 +32,19 @@ namespace OGSatApp.Pages
 
         private async void EntrBPEJcode_Completed(object sender, EventArgs e)
         {
-            _ = ViewExtensions.RelRotateTo(ImgLoadingInfoBPEJ, 2800, 10000);
+           // _ = ViewExtensions.RelRotateTo(ImgLoadingInfoBPEJ, 2800, 10000);
 
 
             var data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text, 10000);
 
-            FillTableSection(TblSctnClimate, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
-            FillTableSection(TblSctnInclination, data.Split('\n')[2].Split(';'), data.Split('\n')[3].Split(';'));
-            FillTableSection(TblSctnSoilDepth, data.Split('\n')[4].Split(';'), data.Split('\n')[5].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnPlants, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnClimate, data.Split('\n')[2].Split(';'), data.Split('\n')[3].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnInclination, data.Split('\n')[4].Split(';'), data.Split('\n')[5].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnSoilDepth, data.Split('\n')[6].Split(';'), data.Split('\n')[7].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnSoilUnit, data.Split('\n')[8].Split(';'), data.Split('\n')[9].Split(';'));
 
 
-            ViewExtensions.CancelAnimations(ImgLoadingInfoBPEJ);
+            //ViewExtensions.CancelAnimations(ImgLoadingInfoBPEJ);
 
 
             //data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)), false);
@@ -85,19 +87,6 @@ namespace OGSatApp.Pages
 
             BttnGetBPEJ.IsEnabled = true;
         }
-
-
-        private void FillTableSection(TableSection section, string[] columns, string[] values)
-        {
-            section.Clear();
-
-            for (int i = 0; i < columns.Length; i++)
-            {
-                var layout = new StackLayout() { Padding = 10 };
-                layout.Children.Add(new Label() { Text = columns[i], TextColor = Color.Black });
-                layout.Children.Add(new Label() { Text = values[i] });
-                section.Add(new ViewCell() { View = layout });
-            }
-        }
+      
     }
 }

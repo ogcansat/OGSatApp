@@ -32,6 +32,8 @@ namespace OGSatApp.Pages
 
         private async void RefreshConnectionStatus()
         {
+            async void UpdateConnectionString(string text, Color color) => await Device.InvokeOnMainThreadAsync(() => { LblConnectionStatus.Text = text; LblConnectionStatus.TextColor = color; });
+
             _ = Task.Run(() => ViewExtensions.RelRotateTo(ImgRefreshConnection, 2800, 10000));
 
             UpdateConnectionString("Připojování...", Color.Gray);
@@ -49,12 +51,11 @@ namespace OGSatApp.Pages
                     case ConnectionState.Connected:
                         UpdateConnectionString("Připojení s RPi navázano.", Color.Green);
                         break;
-                } 
+                }
             });
 
             ViewExtensions.CancelAnimations(ImgRefreshConnection);
-
-            void UpdateConnectionString(string text, Color color) => Dispatcher.BeginInvokeOnMainThread(() => { LblConnectionStatus.Text = text; LblConnectionStatus.TextColor = color; });
+          
         }
 
         private void BttnSatData_Clicked(object sender, EventArgs e)
@@ -98,6 +99,11 @@ namespace OGSatApp.Pages
                     BluetoothController.SendDataToRPi("restartOG");
                     break;
             }
+        }
+
+        private void BttnPlants_Clicked(object sender, EventArgs e)
+        {
+            Navigation.PushModalAsync(new PlantsPage());
         }
     }
 }
