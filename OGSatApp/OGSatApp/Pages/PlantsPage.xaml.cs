@@ -18,56 +18,29 @@ namespace OGSatApp.Pages
     public partial class PlantsPage : ContentPage
     {
 
-        private (string[], string[][]) _plants;
-
         public PlantsPage()
         {
             InitializeComponent();
-            LoadPlants();
+            FillPlantsPicker();
         }
 
-        public PlantsPage(string plant)
+        public PlantsPage(string plant) : this()
         {
-            InitializeComponent();
-            LoadPlants();
             PckrPlants.SelectedItem = plant;
         }
 
-        private async void LoadPlants()
+        private void FillPlantsPicker()
         {
-            var file = await BluetoothController.GetDataFromRPiAsync("getPlants", 50000);
-
-
-
-            string[] lines = file.Split('\n');
-
-            int index = 0;
-            string[][] values = new string[lines.Length - 1][];
-            lines.Skip(1).ForEach(x =>
-            {
-                values[index++] = x.Split(';');
-            });
-
-            _plants = (lines[0].Split(';'), values);
-
-
-
-            string[] plantTitles = new string[_plants.Item2.Length];
-            for (int i = 0; i < plantTitles.Length; i++)
-            {
-                plantTitles[i] = FormatPlantTitle(_plants.Item2[i][0], _plants.Item2[i][1], _plants.Item2[i][2]);
-            }
-            PckrPlants.ItemsSource = plantTitles;
-        }
-
-        private string FormatPlantTitle(string name, string breed, string type) => String.Format("{0} {1} ({2})", name, breed, type);
+            //PckrPlants.Items.Clear();
+            PlantsController.Plants.Lines.ForEach(x => PckrPlants.Items.Add(PlantsController.FormatPlantTitle(x)));
+        }     
 
         private void PckrPlants_SelectedIndexChanged(object sender, EventArgs e)
         {
             TblSctnPlant.Clear();
 
-            string[] columns = _plants.Item1;
-            string[] values = _plants.Item2.First(x => string.Equals(FormatPlantTitle(x[0], x[1], x[2]), PckrPlants.SelectedItem.ToString()));
+            string[] columns = PlantsController.Plants.Columns;
+            string[] values = PlantsController.Plants.Lines.First(x => string.Equals(PlantsController.FormatPlantTitle(x), PckrPlants.SelectedItem.ToString()));
 
             GUIAnimations.FillTableSection(TblSctnPlant, columns, values);
 

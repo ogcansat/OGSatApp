@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using OGSatApp.Misc;
+using System.Net;
 
 namespace OGSatApp.Controllers
 {
@@ -38,7 +39,13 @@ namespace OGSatApp.Controllers
         [StringValue("dataON bs")]
         DataBaseStation,
         [StringValue("dataOFF")]
-        DataOFF
+        DataOFF,
+        [StringValue("getBPEJ")]
+        InfoBPEJ,
+        [StringValue("get_bpej")]
+        GetBPEJfromLocation,
+        [StringValue("getPlants")]
+        GetPlants
     }
 
 
@@ -80,9 +87,9 @@ namespace OGSatApp.Controllers
             await _client.GetStream().WriteAsync(bytes, 0, bytes.Length);
         }
 
-        public static async Task SendQueryToRPiAsync(Query query)
+        public static async Task SendQueryToRPiAsync(Query query, params string[] args)
         {
-            await SendQueryToRPiAsync(query.GetStringValue());
+            await SendQueryToRPiAsync(query.GetStringValue() + " " + string.Join(" ", args));
         }
 
 
@@ -141,7 +148,7 @@ namespace OGSatApp.Controllers
         }
 
 
-        [Obsolete]
+        [Obsolete("Use SendQueryToRPiAsync method instead.")]
         public static bool SendDataToRPi(string data)
         {
             if (_client.Connected)
