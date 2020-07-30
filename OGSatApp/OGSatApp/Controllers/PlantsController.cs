@@ -3,22 +3,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xamarin.Forms.Internals;
 
 namespace OGSatApp.Controllers
 {
+
+
     public static class PlantsController
     {
 
-        private static (string[], string[][]) _plants;
+        private static (string[], string[][]) _plants = (null, null);
 
         public static (string[] Columns, string[][] Lines) Plants
         {
             get
             {
-                if (_plants == (null, null))
-                    LoadPlants().Wait();
                 return _plants;
             }
             set
@@ -31,23 +32,22 @@ namespace OGSatApp.Controllers
 
         public static string FormatPlantTitle(string[] plantValue) => FormatPlantTitle(plantValue[0], plantValue[1], plantValue[2]);
 
-        public static Task LoadPlants()
+        public static async Task LoadPlantsAsync()
         {
-            return Task.Run(async () =>
+
+            var file = await BluetoothController.GetDataFromRPiAsync(Query.GetPlants.GetStringValue(), 50000,1000);
+
+            string[] lines = file.Split('\n');
+
+            int index = 0;
+            string[][] values = new string[lines.Length - 1][];
+            lines.Skip(1).ForEach(x =>
             {
-                var file = await BluetoothController.GetDataFromRPiAsync(Query.GetPlants.GetStringValue(), 50000);
+                values[index++] = x.Split(';');
+            });
 
-                string[] lines = file.Split('\n');
+            _plants = (lines[0].Split(';'), values);
 
-                int index = 0;
-                string[][] values = new string[lines.Length - 1][];
-                lines.Skip(1).ForEach(x =>
-                {
-                    values[index++] = x.Split(';');
-                });
-
-                Plants = (lines[0].Split(';'), values);
-            });      
         }
     }
 }

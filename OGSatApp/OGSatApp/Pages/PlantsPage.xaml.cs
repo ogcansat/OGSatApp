@@ -21,6 +21,12 @@ namespace OGSatApp.Pages
         public PlantsPage()
         {
             InitializeComponent();
+            this.Appearing += PlantsPage_Appearing;
+        }
+
+        private async void PlantsPage_Appearing(object sender, EventArgs e)
+        {
+            await PlantsController.LoadPlantsAsync();
             FillPlantsPicker();
         }
 
@@ -31,7 +37,7 @@ namespace OGSatApp.Pages
 
         private void FillPlantsPicker()
         {
-            //PckrPlants.Items.Clear();
+            PckrPlants.Items.Clear();
             PlantsController.Plants.Lines.ForEach(x => PckrPlants.Items.Add(PlantsController.FormatPlantTitle(x)));
         }     
 
