@@ -64,11 +64,7 @@ namespace OGSatApp.Pages
             try
             {
                 location = await Geolocation.GetLocationAsync();
-
-                BluetoothController.SendDataToRPi($"get_bpej {location.Longitude} {location.Latitude}");
-                await Task.Delay(1000);
-                EntrBPEJcode.Text = await BluetoothController.ReadDataFromRPiAsync();
-
+                EntrBPEJcode.Text = await BluetoothController.GetDataFromRPiAsync($"get_bpej {location.Longitude} {location.Latitude}", 1000, 1000);
                 EntrBPEJcode_Completed(null, null);
             }
             catch (FeatureNotEnabledException)

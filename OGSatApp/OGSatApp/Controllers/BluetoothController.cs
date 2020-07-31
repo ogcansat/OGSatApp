@@ -62,6 +62,20 @@ namespace OGSatApp.Controllers
 
         public static ConnectionState ConnectionStatus { get; private set; }
 
+
+        public static ConnectionState ConnectToRPi()
+        {
+            if (CrossBluetoothLE.Current.State == BluetoothState.On)
+            {
+                _client.Connect(_client.PairedDevices.ToList().FirstOrDefault(x => x.DeviceName == "raspberrypi").DeviceAddress, BluetoothService.SerialPort);
+                return ConnectionStatus = _client.Connected ? ConnectionState.Connected : ConnectionState.Failed;
+            }
+            else
+                return ConnectionStatus = ConnectionState.BluetoothOFF;
+
+        }
+
+
         /// <summary>
         /// Read data from connected device
         /// </summary>
@@ -111,23 +125,6 @@ namespace OGSatApp.Controllers
 
 
         #region ObsoleteMethods
-
-        [Obsolete]
-        public static ConnectionState ConnectToRPi()
-        {
-            if (CrossBluetoothLE.Current.State == BluetoothState.On)
-            {
-                //if (!Client.Connected)
-                //{
-                _client.Connect(_client.PairedDevices.ToList().FirstOrDefault(x => x.DeviceName == "raspberrypi").DeviceAddress, BluetoothService.SerialPort);
-                return _client.Connected ? ConnectionState.Connected : ConnectionState.Failed;
-                //}
-                //return ConnectionState.Connected;
-            }
-            else
-                return ConnectionState.BluetoothOFF;
-
-        }
 
         [Obsolete("Use ReadDataFromRPiAsync method instead.")]
         public static string ReadDataFromRPi()
