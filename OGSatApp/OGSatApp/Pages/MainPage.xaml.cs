@@ -32,6 +32,8 @@ namespace OGSatApp.Pages
 
         private async void RefreshConnectionStatus()
         {
+            void UpdateConnectionString(string text, Color color) => Device.InvokeOnMainThreadAsync(() => { LblConnectionStatus.Text = text; LblConnectionStatus.TextColor = color; });
+
             _ = Task.Run(() => ViewExtensions.RelRotateTo(ImgRefreshConnection, 2800, 10000));
 
             UpdateConnectionString("Připojování...", Color.Gray);
@@ -49,55 +51,57 @@ namespace OGSatApp.Pages
                     case ConnectionState.Connected:
                         UpdateConnectionString("Připojení s RPi navázano.", Color.Green);
                         break;
-                } 
+                }
             });
 
             ViewExtensions.CancelAnimations(ImgRefreshConnection);
-
-            void UpdateConnectionString(string text, Color color) => Dispatcher.BeginInvokeOnMainThread(() => { LblConnectionStatus.Text = text; LblConnectionStatus.TextColor = color; });
+          
         }
 
-        private void BttnSatData_Clicked(object sender, EventArgs e)
+        private async void BttnSatData_Clicked(object sender, EventArgs e)
         {
-            BluetoothController.SendDataToRPi("dataON sat");
-            Navigation.PushModalAsync(new SatDataPage());
+            await Navigation.PushModalAsync(new SatDataPage());
         }
 
-        private void BttnBaseData_Clicked(object sender, EventArgs e)
+        private async void BttnBaseData_Clicked(object sender, EventArgs e)
         {
-            BluetoothController.SendDataToRPi("dataON bs");
-            Navigation.PushModalAsync(new BaseDataPage());
+            await Navigation.PushModalAsync(new BaseDataPage());
         }
 
-        private void BttnBPEJ_Clicked(object sender, EventArgs e)
+        private async void BttnBPEJ_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushModalAsync(new BPEJPage());
+            await Navigation.PushModalAsync(new BPEJPage());
         }
 
         private void TapGestureRecognizer_Tapped(object sender, EventArgs e) => RefreshConnectionStatus();
 
         private async void ImgShutdown_Tapped(object sender, EventArgs e)
         {
-            if (!BluetoothController.Client.Connected)
+            if (BluetoothController.ConnectionStatus != ConnectionState.Connected)
                 return;
 
             string result = await DisplayActionSheet("Vyberte akci", "Zrušit", "", "Vypnout RPi", "Resetovat RPi", "Resetovat data monitoring");
             switch (result)
             {
                 case "Vypnout RPi":
-                    BluetoothController.SendDataToRPi("shutdown");
+                    await BluetoothController.SendQueryToRPiAsync("shutdown");
                     RefreshConnectionStatus();
                     break;
                 case "Resetovat RPi":
-                    BluetoothController.SendDataToRPi("reboot");
+                    await BluetoothController.SendQueryToRPiAsync("reboot");
                     RefreshConnectionStatus();
                     await Task.Delay(10_000);
                     RefreshConnectionStatus();
                     break;
                 case "Resetovat data monitoring":
-                    BluetoothController.SendDataToRPi("restartOG");
+                    await BluetoothController.SendQueryToRPiAsync("restartOG");
                     break;
             }
+        }
+
+        private async void BttnPlants_Clicked(object sender, EventArgs e)
+        {
+           await Navigation.PushModalAsync(new PlantsPage());
         }
     }
 }

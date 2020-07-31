@@ -32,18 +32,24 @@ namespace OGSatApp.Pages
 
         private async void EntrBPEJcode_Completed(object sender, EventArgs e)
         {
+           // _ = ViewExtensions.RelRotateTo(ImgLoadingInfoBPEJ, 2800, 10000);
 
-            var data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.Climate, int.Parse(EntrBPEJcode.Text[0].ToString()));
-            FillTableSection(TblSctnClimate, data.Item1, data.Item2);
 
-            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.Inclination, int.Parse(EntrBPEJcode.Text[2].ToString()));
-            FillTableSection(TblSctnInclination, data.Item1, data.Item2);
+            var data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text, 10000);
 
-            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilDepth, int.Parse(EntrBPEJcode.Text[3].ToString()));
-            FillTableSection(TblSctnSoilDepth, data.Item1, data.Item2);
+            GUIAnimations.FillTableSection(TblSctnPlants, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnClimate, data.Split('\n')[2].Split(';'), data.Split('\n')[3].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnInclination, data.Split('\n')[4].Split(';'), data.Split('\n')[5].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnSoilDepth, data.Split('\n')[6].Split(';'), data.Split('\n')[7].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnSoilUnit, data.Split('\n')[8].Split(';'), data.Split('\n')[9].Split(';'));
 
-            data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)), false);
-            FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis" }, new string[] { data.Item2[0], string.Join(Environment.NewLine, data.Item2.Skip(1)) });
+
+            //ViewExtensions.CancelAnimations(ImgLoadingInfoBPEJ);
+
+
+            //data = await BPEJController.LoadBPEJDetailsAsync(CodeBPEJ.SoilUnit, int.Parse(EntrBPEJcode.Text.Substring(5, 2)), false);
+            //FillTableSection(TblSctnSoilUnit, new string[] { "Kód", "Popis" }, new string[] { data.Item2[0], string.Join(Environment.NewLine, data.Item2.Skip(1)) });
+
 
         }
 
@@ -58,11 +64,7 @@ namespace OGSatApp.Pages
             try
             {
                 location = await Geolocation.GetLocationAsync();
-
-                BluetoothController.SendDataToRPi($"get_bpej {location.Longitude} {location.Latitude}");
-                await Task.Delay(1000);
-                EntrBPEJcode.Text = await BluetoothController.ReadDataFromRPiAsync();
-
+                EntrBPEJcode.Text = await BluetoothController.GetDataFromRPiAsync($"get_bpej {location.Longitude} {location.Latitude}", 1000, 1000);
                 EntrBPEJcode_Completed(null, null);
             }
             catch (FeatureNotEnabledException)
@@ -81,19 +83,6 @@ namespace OGSatApp.Pages
 
             BttnGetBPEJ.IsEnabled = true;
         }
-
-
-        private void FillTableSection(TableSection section, string[] columns, string[] values)
-        {
-            section.Clear();
-
-            for (int i = 0; i < columns.Length; i++)
-            {
-                var layout = new StackLayout() { Padding = 10 };
-                layout.Children.Add(new Label() { Text = columns[i], TextColor = Color.Black });
-                layout.Children.Add(new Label() { Text = values[i] });
-                section.Add(new ViewCell() { View = layout });
-            }
-        }
+      
     }
 }

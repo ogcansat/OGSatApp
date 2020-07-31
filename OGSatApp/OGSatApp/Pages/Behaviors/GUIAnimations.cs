@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace OGSatApp.Pages.Behaviors
 {
-    public static class GUIAnimations
+    internal static class GUIAnimations
     {
         public static CancellationTokenSource DotLoadingAnimation(Label label, string title, int length, double interval)
         {
@@ -58,6 +58,22 @@ namespace OGSatApp.Pages.Behaviors
             }
 
             updateTime.Text = "Poslední aktualizace: " + DateTime.Now.ToString("HH:mm:ss");
+        }
+
+        public static void FillTableSection(TableSection section, string[] columns, string[] values, EventHandler handler = null)
+        {
+            section.Clear();
+
+            for (int i = 0; i < columns.Length; i++)
+            {
+                var layout = new StackLayout() { Padding = 10};
+                layout.Children.Add(new Label() { Text = columns[i], TextColor = Color.Black });
+                if (values != null)
+                    layout.Children.Add(new Label() { Text = values[i], Padding=new Thickness(10,0,10,0) });
+                var cell = new ViewCell() { View = layout };
+                cell.Tapped += handler;
+                section.Add(cell);
+            }
         }
     }
 }
