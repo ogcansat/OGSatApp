@@ -58,7 +58,7 @@ namespace OGSatApp.Controllers
         /// <summary>
         /// Private field for connected device
         /// </summary>
-        private readonly static BluetoothClient _client = new BluetoothClient();
+        public readonly static BluetoothClient _client = new BluetoothClient();
 
         public static ConnectionState ConnectionStatus { get; private set; }
 
@@ -121,6 +121,8 @@ namespace OGSatApp.Controllers
             await Task.Delay(delay);
             return await ReadDataFromRPiAsync(buffer);
         }
+
+
 
 
 

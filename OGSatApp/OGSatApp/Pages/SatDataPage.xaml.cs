@@ -2,6 +2,8 @@
 using OGSatApp.Pages.Behaviors;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,7 +19,9 @@ namespace OGSatApp.Pages
     public partial class SatDataPage : ContentPage
     {
 
-        private Thread _listener;
+        private CancellationTokenSource _token;
+
+        Task task;
 
         public SatDataPage()
         {
@@ -25,11 +29,14 @@ namespace OGSatApp.Pages
 
             Disappearing += SatDataPage_Disappearing;
 
-            _listener = new Thread(async () =>
+            _token = new CancellationTokenSource();
+
+            task = Task.Run(async () =>
             {
+                _ = BluetoothController.SendQueryToRPiAsync(Query.DataSatellite);
+
                 while (true)
                 {
-
                     string data = await BluetoothController.ReadDataFromRPiAsync();
                     Dispatcher.BeginInvokeOnMainThread(() => GUIAnimations.UpdateData(data, new Dictionary<string, Label>()
                     {
@@ -42,19 +49,32 @@ namespace OGSatApp.Pages
                         {"Latitude", LblLat }
                     }, LblUpdateTime));
 
+                    if (_token.Token.IsCancellationRequested)
+                    {
+                        await BluetoothController.SendQueryToRPiAsync(Query.DataOFF);
+                        await Task.Delay(1000);
+
+
+                        while (BluetoothController._client.GetStream().DataAvailable)
+                            BluetoothController.ReadDataFromRPi();
+
+
+
+
+                        return;
+                    }
+
                 }
             });
-
-
-            _ = BluetoothController.SendQueryToRPiAsync(Query.DataSatellite);
-            _listener.Start();
 
         }
 
         private async void SatDataPage_Disappearing(object sender, EventArgs e)
         {
-            await BluetoothController.SendQueryToRPiAsync(Query.DataOFF);
-            _listener.Abort();
+            _token.Cancel();
+
+
+            Debug.WriteLine(task.IsCompleted);
         }
 
     }
