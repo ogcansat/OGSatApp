@@ -80,21 +80,24 @@ namespace OGSatApp.Pages
             if (BluetoothController.ConnectionStatus != ConnectionState.Connected)
                 return;
 
-            string result = await DisplayActionSheet("Vyberte akci", "Zrušit", "", "Vypnout RPi", "Resetovat RPi", "Resetovat data monitoring");
+            string result = await DisplayActionSheet("Vyberte akci", "Zrušit", "", "Vypnout RPi", "Resetovat RPi", "Resetovat data monitoring"); 
             switch (result)
             {
                 case "Vypnout RPi":
                     await BluetoothController.SendQueryToRPiAsync("shutdown");
+                    await Task.Delay(1_000);
                     RefreshConnectionStatus();
                     break;
                 case "Resetovat RPi":
                     await BluetoothController.SendQueryToRPiAsync("reboot");
+                    await Task.Delay(1_000);
                     RefreshConnectionStatus();
-                    await Task.Delay(10_000);
+                    await Task.Delay(15_000);
                     RefreshConnectionStatus();
                     break;
-                case "Resetovat data monitoring":
+                case "Resetovat data monitoring":          
                     await BluetoothController.SendQueryToRPiAsync("restartOG");
+                    await Task.Delay(1_000);
                     break;
             }
         }
