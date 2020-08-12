@@ -55,8 +55,6 @@ namespace OGSatApp.Pages
 
         private async void BttnGetBPEJ_Clicked(object sender, EventArgs e)
         {
-            BluetoothController._client.GetStream().Flush();
-
             BttnGetBPEJ.IsEnabled = false;
 
             var token = GUIAnimations.DotLoadingAnimation(LblBPEJFinding, "Vyhodnocování", 7, 300);
