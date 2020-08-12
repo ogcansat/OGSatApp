@@ -18,15 +18,27 @@ namespace OGSatApp.Pages
     public partial class BaseDataPage : ContentPage
     {
 
-        private Thread _listener;
+        /// <summary>
+        /// Token for cancellation the listening of data from RPi
+        /// </summary>
+        private CancellationTokenSource _token;
 
+
+        /// <summary>
+        /// Initialize the page, create task for listening of data from RPi
+        /// </summary>
         public BaseDataPage()
         {
             InitializeComponent();
 
             Disappearing += BaseDataPage_Disappearing;
 
-            _listener = new Thread(async () =>
+            _token = new CancellationTokenSource();
+
+            //Sends query for listening base station data.
+            _ = BluetoothController.SendQueryToRPiAsync(Query.DataBaseStation);
+
+            Task.Run(async () =>
             {
                 while (true)
                 {
@@ -40,17 +52,32 @@ namespace OGSatApp.Pages
                         {"Light", LblLight },
                         {"SoilHum", LblSoil }
                     }, LblUpdateTime));
+
+                    //Cancellation operation
+                    if (_token.Token.IsCancellationRequested)
+                    {                       
+                        await BluetoothController.ClearIncomeBuffer();
+                        return;
+                    }
                 }
+
+               
             });
 
-            _ = BluetoothController.SendQueryToRPiAsync(Query.DataBaseStation);
-            _listener.Start();
+            
+
         }
 
+
+        /// <summary>
+        /// Sends cancellation query to the RPi, cancel the listening task
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void BaseDataPage_Disappearing(object sender, EventArgs e)
         {
             await BluetoothController.SendQueryToRPiAsync(Query.DataOFF);
-            _listener.Abort();
+            _token.Cancel();
         }
 
     }

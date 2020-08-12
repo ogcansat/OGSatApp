@@ -122,6 +122,23 @@ namespace OGSatApp.Controllers
             return await ReadDataFromRPiAsync(buffer);
         }
 
+        /// <summary>
+        /// Flushes the income buffer (reads all remain characters until end is reached)
+        /// </summary>
+        /// <returns>Task for clearing income buffer</returns>
+        public static Task ClearIncomeBuffer()
+        {
+            return Task.Run(() =>
+            {
+                byte[] bytes = new byte[3_000];
+                while (BluetoothController._client.GetStream().DataAvailable)
+                {  
+                    _client.GetStream().Read(bytes, 0, bytes.Length);
+                }
+            });
+        }
+
+
 
 
         #region ObsoleteMethods

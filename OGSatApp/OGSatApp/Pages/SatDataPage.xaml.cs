@@ -2,6 +2,8 @@
 using OGSatApp.Pages.Behaviors;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -16,20 +18,29 @@ namespace OGSatApp.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SatDataPage : ContentPage
     {
+        /// <summary>
+        /// Token for cancellation the listening of data from RPi
+        /// </summary>
+        private CancellationTokenSource _token;
 
-        private Thread _listener;
-
+        /// <summary>
+        /// Initialize the page, create task for listening of data from RPi
+        /// </summary>
         public SatDataPage()
         {
             InitializeComponent();
 
             Disappearing += SatDataPage_Disappearing;
 
-            _listener = new Thread(async () =>
-            {
+            _token = new CancellationTokenSource();
+
+            //Sends query for listening satellite data.
+            _ = BluetoothController.SendQueryToRPiAsync(Query.DataSatellite);
+
+            Task.Run(async () =>
+            {         
                 while (true)
                 {
-
                     string data = await BluetoothController.ReadDataFromRPiAsync();
                     Dispatcher.BeginInvokeOnMainThread(() => GUIAnimations.UpdateData(data, new Dictionary<string, Label>()
                     {
@@ -42,19 +53,27 @@ namespace OGSatApp.Pages
                         {"Latitude", LblLat }
                     }, LblUpdateTime));
 
+                    //Cancellation operation
+                    if (_token.Token.IsCancellationRequested)
+                    {
+                        await BluetoothController.ClearIncomeBuffer();
+                        return;
+                    }
+
                 }
             });
 
-
-            _ = BluetoothController.SendQueryToRPiAsync(Query.DataSatellite);
-            _listener.Start();
-
         }
 
+        /// <summary>
+        /// Sends cancellation query to the RPi, cancel the listening task
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void SatDataPage_Disappearing(object sender, EventArgs e)
         {
             await BluetoothController.SendQueryToRPiAsync(Query.DataOFF);
-            _listener.Abort();
+            _token.Cancel();
         }
 
     }
