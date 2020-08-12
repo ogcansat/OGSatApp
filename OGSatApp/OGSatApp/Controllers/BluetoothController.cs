@@ -58,7 +58,7 @@ namespace OGSatApp.Controllers
         /// <summary>
         /// Private field for connected device
         /// </summary>
-        public readonly static BluetoothClient _client = new BluetoothClient();
+        private readonly static BluetoothClient _client = new BluetoothClient();
 
         public static ConnectionState ConnectionStatus { get; private set; }
 
