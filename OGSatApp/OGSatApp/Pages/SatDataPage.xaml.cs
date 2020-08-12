@@ -29,10 +29,10 @@ namespace OGSatApp.Pages
 
             _token = new CancellationTokenSource();
 
-            Task.Run(async () =>
-            {
-                _ = BluetoothController.SendQueryToRPiAsync(Query.DataSatellite);
+            _ = BluetoothController.SendQueryToRPiAsync(Query.DataSatellite);
 
+            Task.Run(async () =>
+            {         
                 while (true)
                 {
                     string data = await BluetoothController.ReadDataFromRPiAsync();
@@ -49,8 +49,6 @@ namespace OGSatApp.Pages
 
                     if (_token.Token.IsCancellationRequested)
                     {
-                        await BluetoothController.SendQueryToRPiAsync(Query.DataOFF);
-                        await Task.Delay(500);
                         await BluetoothController.ClearIncomeBuffer();
                         return;
                     }
@@ -60,8 +58,9 @@ namespace OGSatApp.Pages
 
         }
 
-        private void SatDataPage_Disappearing(object sender, EventArgs e)
+        private async void SatDataPage_Disappearing(object sender, EventArgs e)
         {
+            await BluetoothController.SendQueryToRPiAsync(Query.DataOFF);
             _token.Cancel();
         }
 
