@@ -44,7 +44,7 @@ namespace OGSatApp.Pages
             data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " soilDepth", 5000);
             GUIAnimations.FillTableSection(TblSctnSoilDepth, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
             data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " soilUnit", 5000);
-            GUIAnimations.FillTableSection(TblSctnSoilUnit, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnSoilUnit, data.Split('\n')[0].Split(';'), new string[] { String.Join("\n", data.Split('\n').Skip(1).ToArray()) });
 
 
 
