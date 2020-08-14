@@ -35,13 +35,25 @@ namespace OGSatApp.Pages
            // _ = ViewExtensions.RelRotateTo(ImgLoadingInfoBPEJ, 2800, 10000);
 
 
-            var data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text, 10000);
-
+            var data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " plants", 5000);
             GUIAnimations.FillTableSection(TblSctnPlants, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+            data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " climate", 5000);
+            GUIAnimations.FillTableSection(TblSctnClimate, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+            data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " inclination", 5000);
+            GUIAnimations.FillTableSection(TblSctnInclination, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+            data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " soilDepth", 5000);
+            GUIAnimations.FillTableSection(TblSctnSoilDepth, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+            data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " soilUnit", 5000);
+            GUIAnimations.FillTableSection(TblSctnSoilUnit, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+
+
+
+
+            /*GUIAnimations.FillTableSection(TblSctnPlants, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
             GUIAnimations.FillTableSection(TblSctnClimate, data.Split('\n')[2].Split(';'), data.Split('\n')[3].Split(';'));
             GUIAnimations.FillTableSection(TblSctnInclination, data.Split('\n')[4].Split(';'), data.Split('\n')[5].Split(';'));
             GUIAnimations.FillTableSection(TblSctnSoilDepth, data.Split('\n')[6].Split(';'), data.Split('\n')[7].Split(';'));
-            GUIAnimations.FillTableSection(TblSctnSoilUnit, data.Split('\n')[8].Split(';'), data.Split('\n')[9].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnSoilUnit, data.Split('\n')[8].Split(';'), data.Split('\n')[9].Split(';'));*/
 
 
             //ViewExtensions.CancelAnimations(ImgLoadingInfoBPEJ);
