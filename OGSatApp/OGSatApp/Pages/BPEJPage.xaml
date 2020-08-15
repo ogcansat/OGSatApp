@@ -21,6 +21,7 @@
                     <behaviors:BPEJValidationBehavior Mask="X.XX.XX"/>
                 </Entry.Behaviors>
             </Entry>
+            <ProgressBar x:Name="PrgrssBrBPEJ" IsVisible="False" />
             <TableView Intent="Data" HasUnevenRows="True">
                 <TableRoot>
                     <TableSection x:Name="TblSctnPlants"

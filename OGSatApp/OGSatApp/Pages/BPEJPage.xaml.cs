@@ -32,21 +32,50 @@ namespace OGSatApp.Pages
 
         private async void EntrBPEJcode_Completed(object sender, EventArgs e)
         {
-           // _ = ViewExtensions.RelRotateTo(ImgLoadingInfoBPEJ, 2800, 10000);
+            // _ = ViewExtensions.RelRotateTo(ImgLoadingInfoBPEJ, 2800, 10000);
 
+            PrgrssBrBPEJ.IsVisible = true;
+            PrgrssBrBPEJ.Progress = 0;
+            TblSctnPlants.Clear();
+            TblSctnClimate.Clear();
+            TblSctnInclination.Clear();
+            TblSctnSoilDepth.Clear();
+            TblSctnSoilUnit.Clear();
+            BttnGetBPEJ.IsEnabled = false;
+
+            _ = PrgrssBrBPEJ.ProgressTo(0.5, 23000, Easing.Linear);
 
             var data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " plants", 5000);
-            GUIAnimations.FillTableSection(TblSctnPlants, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+            GUIAnimations.FillTableSection(TblSctnPlants, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'), async (s, a) =>
+            {
+                var plant = (((s as ViewCell).View as StackLayout).Children[0] as Label).Text;
+                await Navigation.PushModalAsync(new PlantsPage(plant));
+            });
+
+            _ = PrgrssBrBPEJ.ProgressTo(0.6, 1250, Easing.Linear);
+
             data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " climate", 5000);
             GUIAnimations.FillTableSection(TblSctnClimate, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+
+            _ = PrgrssBrBPEJ.ProgressTo(0.7, 1250, Easing.Linear);
+
             data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " inclination", 5000);
             GUIAnimations.FillTableSection(TblSctnInclination, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+
+            _ = PrgrssBrBPEJ.ProgressTo(0.8, 1250, Easing.Linear);
+
             data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " soilDepth", 5000);
             GUIAnimations.FillTableSection(TblSctnSoilDepth, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));
+
+            _ = PrgrssBrBPEJ.ProgressTo(0.9, 1250, Easing.Linear);
+
             data = await BluetoothController.GetDataFromRPiAsync("getBPEJ " + EntrBPEJcode.Text + " soilUnit", 5000);
             GUIAnimations.FillTableSection(TblSctnSoilUnit, data.Split('\n')[0].Split(';'), new string[] { String.Join("\n", data.Split('\n').Skip(1).ToArray()) });
 
+            _ = PrgrssBrBPEJ.ProgressTo(1, 1250, Easing.Linear);
 
+            PrgrssBrBPEJ.IsVisible = false;
+            BttnGetBPEJ.IsEnabled = true;
 
 
             /*GUIAnimations.FillTableSection(TblSctnPlants, data.Split('\n')[0].Split(';'), data.Split('\n')[1].Split(';'));

@@ -21,18 +21,26 @@ namespace OGSatApp.Pages
         public PlantsPage()
         {
             InitializeComponent();
-            this.Appearing += PlantsPage_Appearing;
+            GetPlants();
         }
 
-        private async void PlantsPage_Appearing(object sender, EventArgs e)
+        private async void GetPlants()
         {
             await PlantsController.LoadPlantsAsync();
             FillPlantsPicker();
         }
 
-        public PlantsPage(string plant) : this()
+        private async void GetPlants(string plant)
         {
+            await PlantsController.LoadPlantsAsync();
+            FillPlantsPicker();
             PckrPlants.SelectedItem = plant;
+        }
+
+        public PlantsPage(string plant)
+        {
+            InitializeComponent();
+            GetPlants(plant);
         }
 
         private void FillPlantsPicker()
