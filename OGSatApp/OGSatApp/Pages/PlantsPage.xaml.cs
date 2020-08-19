@@ -21,6 +21,9 @@ namespace OGSatApp.Pages
         public PlantsPage()
         {
             InitializeComponent();
+
+            if (GUIAnimations.CheckConnection(this)) return;
+
             GetPlants();
         }
 

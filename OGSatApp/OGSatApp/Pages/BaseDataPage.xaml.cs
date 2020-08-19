@@ -31,6 +31,8 @@ namespace OGSatApp.Pages
         {
             InitializeComponent();
 
+            if (GUIAnimations.CheckConnection(this)) return;
+
             Disappearing += BaseDataPage_Disappearing;
 
             _token = new CancellationTokenSource();

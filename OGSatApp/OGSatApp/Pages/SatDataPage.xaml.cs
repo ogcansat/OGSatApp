@@ -30,9 +30,13 @@ namespace OGSatApp.Pages
         {
             InitializeComponent();
 
+            if (GUIAnimations.CheckConnection(this)) return;
+
             Disappearing += SatDataPage_Disappearing;
 
             _token = new CancellationTokenSource();
+
+            
 
             //Sends query for listening satellite data.
             _ = BluetoothController.SendQueryToRPiAsync(Query.DataSatellite);

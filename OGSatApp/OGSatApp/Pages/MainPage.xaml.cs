@@ -15,6 +15,7 @@ using Plugin.BLE.Abstractions.Contracts;
 using System.Threading;
 using OGSatApp.Controllers;
 using System.Diagnostics;
+using OGSatApp.Pages.Behaviors;
 
 namespace OGSatApp.Pages
 {
@@ -77,8 +78,7 @@ namespace OGSatApp.Pages
 
         private async void ImgShutdown_Tapped(object sender, EventArgs e)
         {
-            if (BluetoothController.ConnectionStatus != ConnectionState.Connected)
-                return;
+            if (GUIAnimations.CheckConnection(this)) return;
 
             string result = await DisplayActionSheet("Vyberte akci", "Zrušit", "", "Vypnout RPi", "Resetovat RPi", "Resetovat data monitoring"); 
             switch (result)

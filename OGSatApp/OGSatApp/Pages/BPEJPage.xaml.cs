@@ -34,6 +34,8 @@ namespace OGSatApp.Pages
         {
             // _ = ViewExtensions.RelRotateTo(ImgLoadingInfoBPEJ, 2800, 10000);
 
+            if (GUIAnimations.CheckConnection(this)) return;
+
             PrgrssBrBPEJ.IsVisible = true;
             PrgrssBrBPEJ.Progress = 0;
             TblSctnPlants.Clear();
@@ -96,6 +98,8 @@ namespace OGSatApp.Pages
 
         private async void BttnGetBPEJ_Clicked(object sender, EventArgs e)
         {
+            if (GUIAnimations.CheckConnection(this)) return;
+
             BttnGetBPEJ.IsEnabled = false;
 
             var token = GUIAnimations.DotLoadingAnimation(LblBPEJFinding, "Vyhodnocování", 7, 300);

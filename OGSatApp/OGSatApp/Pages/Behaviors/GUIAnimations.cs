@@ -7,6 +7,7 @@ using System.Threading;
 using Xamarin.Forms;
 using Timer = System.Timers.Timer;
 using System.Linq;
+using OGSatApp.Controllers;
 
 namespace OGSatApp.Pages.Behaviors
 {
@@ -74,6 +75,23 @@ namespace OGSatApp.Pages.Behaviors
                 cell.Tapped += handler;
                 section.Add(cell);
             }
+        }
+
+        /// <summary>
+        /// Checks the connection with RPi via Bluetooth
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns>Returns true if not connected, false if connected to the RPi</returns>
+        public static bool CheckConnection(Page page)
+        {
+            if (BluetoothController.ConnectionStatus != ConnectionState.Connected)
+            {
+                page.DisplayAlert("Omezené funkce", "Pro použití všech funkcí se spojte s OGSAT Raspberry Pi (OGRPi) přes bluetooth.", "OK");
+                return true;
+            }
+
+
+            return false;
         }
     }
 }
