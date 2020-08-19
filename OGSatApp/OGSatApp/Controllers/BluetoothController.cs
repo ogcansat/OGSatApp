@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using OGSatApp.Misc;
 using System.Net;
+using InTheHand.Net;
 
 namespace OGSatApp.Controllers
 {
@@ -67,7 +68,7 @@ namespace OGSatApp.Controllers
         {
             if (CrossBluetoothLE.Current.State == BluetoothState.On)
             {
-                _client.Connect(_client.PairedDevices.ToList().FirstOrDefault(x => x.DeviceName == "raspberrypi").DeviceAddress, BluetoothService.SerialPort);
+                _client.Connect(new BluetoothAddress((ulong)202481587699456), BluetoothService.SerialPort);          
                 return ConnectionStatus = _client.Connected ? ConnectionState.Connected : ConnectionState.Failed;
             }
             else
