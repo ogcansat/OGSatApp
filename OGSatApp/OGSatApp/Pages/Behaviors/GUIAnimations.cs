@@ -67,6 +67,9 @@ namespace OGSatApp.Pages.Behaviors
 
             for (int i = 0; i < columns.Length; i++)
             {
+                if (string.IsNullOrWhiteSpace(values[i]))
+                    continue;
+
                 var layout = new StackLayout() { Padding = 10};
                 layout.Children.Add(new Label() { Text = columns[i], TextColor = Color.Black });
                 if (values != null)
