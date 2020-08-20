@@ -128,6 +128,10 @@ namespace OGSatApp.Pages
 
             BttnGetBPEJ.IsEnabled = true;
         }
-      
+
+        private async void TapGestureRecognizer_Tapped(object sender, EventArgs e)
+        {
+            await Launcher.OpenAsync("https://bpej.vumop.cz/");
+        }
     }
 }

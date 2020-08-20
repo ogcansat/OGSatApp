@@ -22,6 +22,20 @@
                 </Entry.Behaviors>
             </Entry>
             <ProgressBar x:Name="PrgrssBrBPEJ" IsVisible="False" />
+            <Label x:Name="LblBPEJlink" Text="https://bpej.vumop.cz/">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Více na: "/>
+                        <Span Text="https://bpej.vumop.cz/"
+                              TextColor="Blue"
+                              TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
             <TableView Intent="Data" HasUnevenRows="True">
                 <TableRoot>
                     <TableSection x:Name="TblSctnPlants"
