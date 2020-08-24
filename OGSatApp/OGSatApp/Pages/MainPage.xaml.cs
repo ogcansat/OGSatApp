@@ -106,5 +106,10 @@ namespace OGSatApp.Pages
         {
            await Navigation.PushModalAsync(new PlantsPage());
         }
+
+        private async void BttnManual_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new ManualPage());
+        }
     }
 }

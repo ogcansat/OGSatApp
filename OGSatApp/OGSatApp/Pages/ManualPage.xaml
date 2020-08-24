@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="OGSatApp.Pages.ManualPage">
+    <ContentPage.Content>
+        <StackLayout Padding="30">
+            <Label Text="Manuál"
+                   TextColor="Black"
+                   FontSize="Title"
+                VerticalOptions="Start"
+                HorizontalOptions="Center" />
+            <Label Text="Manuál verze 1"
+                   TextColor="Black"
+                   FontSize="Large"
+                VerticalOptions="Start"
+                HorizontalOptions="Center" />
+            <Label Text="Vysvětlíme Vám, jak funguje náš satelit,&#10;
+neboť víme že přírodu nechcete nechat hnít.&#10;
+Databází BPEJ správná semena vybereme&#10;
+Odejmutím spodního víka je dovnitř uložíme.&#10;
+&#10;
+Určitě nechceš, aby tvá snaha marná byla&#10;
+A semena se ti ve vodě utopila.&#10;
+Proto radíme, místo dobré si zvol,&#10;
+Aby brzy ze země vyrostl pevný stvol.&#10;
+&#10;
+Neboj, po vypuštění je už o vše postaráno&#10;
+Zaznamenáním pohybu servo otevře dvířka samo.&#10;
+Semínka se všechna do krajiny vysypou&#10;
+A ty jsi udělal pro svět věc záslužnou.&#10;"
+                VerticalOptions="Start"
+                HorizontalOptions="Center" />
+            <Label Text="Manuál verze 2"
+                   TextColor="Black"
+                   FontSize="Large"
+                VerticalOptions="Start"
+                HorizontalOptions="Center" />
+            <Label WidthRequest="320" Text="Odejmeme spodní poklop satelitu a naplníme námi  vybranými semeny. Následně opět uzavřeme a připravíme k letu. Je velmi důležité abychom vybrali místo, kde se semena mohou uchytit. Určitě nechceme, aby naše snaha přišla vniveč, pokud bychom misi prováděli poblíž vody. Po vypuštění satelitu z dostatečné výšky už je vše v režii špičkových technologií. Akcelerometr zaznamená že padá směrem dolů a otočí servo motorem pro průchod rostlin.&#10;&#10;
+V tu chvíli už stačí jen hrdinsky vzhlížet, že jste pomohli v boji proti kůrovci a revitalizovali naši planetu." VerticalOptions="Start"
+                HorizontalOptions="Center" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -45,6 +45,7 @@
         <Button x:Name="BttnBaseData" Text="Data z pozemní stanice" Clicked="BttnBaseData_Clicked"/>
         <Button x:Name="BttnBPEJ" Text="Vypočtení BPEJ kódu" Clicked="BttnBPEJ_Clicked"/>
         <Button x:Name="BttnPlants" Text="Rostliny" Clicked="BttnPlants_Clicked" />
+        <Button x:Name="BttnManual" Text="Manuál" Clicked="BttnManual_Clicked" />
     </StackLayout>
 
 </ContentPage>
